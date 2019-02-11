@@ -11,5 +11,11 @@
 ### Platform / OS
 * ?
 
+### Architecture
+* Intel x86
+
+### Technologies
+* Python
+
 ### Features
 * ?
