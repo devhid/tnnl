@@ -20,7 +20,7 @@ field of various DNS Resource Record (RR) types. TXT, NULL and CNAME records are
 ### HTTP/HTTPS
 * In order to mask communications crossing the target’s network perimeter APT groups often implement covert channels. These channels are often encrypted in order to hide the contents of the communications. While there are many ways to establish malicious C&C channels, ports 80 and 443 are usually used due to the fact that only these ports are allowed for outgoing connections in properly secured corporate environments or governmental institutions.
 
-Depending on the actual C&C and malware implementation, the communication which is being transmitted over HTTP/HTTPS ports can be a legit HTTP protocol or a binary communication. Additionally, malware might be connecting via proxies in order to mask the real location of the C&C server.
+* Depending on the actual C&C and malware implementation, the communication which is being transmitted over HTTP/HTTPS ports can be a legit HTTP protocol or a binary communication. Additionally, malware might be connecting via proxies in order to mask the real location of the C&C server.
 
 ## What does PacketWhisperer do?
 
