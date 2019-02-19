@@ -1,15 +1,12 @@
 <h1 align=center>Project Team & Initial Specifications</h1>
 
-## Submission Deadline
-* February 22nd, 11:59PM
-
 ## Team Members
 1. Mankirat Gulati
 2. Stanley Lim
 
 ## Specifications
 ### Platform / OS
-* ?
+* Both our client and server machines will have Linux-based operating systems.
 
 ### Architecture
 * Intel x86
@@ -18,4 +15,4 @@
 * Python
 
 ### Features
-* ?
+* Text-based Steganography + DNS Queries
