@@ -4,7 +4,6 @@
 
 ## Exfiltration Methods
 ### DNS Tunneling
-#### Summary
 * DNS Tunnel uses a client server model, where the user’s computer (malware infected bot) runs 
 DNS Tunneling client program and the attacker runs DNS Tunneling server program on his authoritative DNS server 
 (C&C Server). The client sends data encoded in hostname label of a DNS Query and the server sends data encoded into 
@@ -16,8 +15,12 @@ DNS Query. The server responds the query with its base64 encoded payload data in
 field of various DNS Resource Record (RR) types. TXT, NULL and CNAME records are the most commonly used in DNS tunneling.
 
 ### Text-Based Steganography
-#### Summary
 * Steganography  is  the  art  of  hiding  information  within  other  less conspicuous  information  to  prevent  eavesdropping  by  way  of  hiding  its existence  in  the first place.
+
+### HTTP/HTTPS
+* In order to mask communications crossing the target’s network perimeter APT groups often implement covert channels. These channels are often encrypted in order to hide the contents of the communications. While there are many ways to establish malicious C&C channels, ports 80 and 443 are usually used due to the fact that only these ports are allowed for outgoing connections in properly secured corporate environments or governmental institutions.
+
+Depending on the actual C&C and malware implementation, the communication which is being transmitted over HTTP/HTTPS ports can be a legit HTTP protocol or a binary communication. Additionally, malware might be connecting via proxies in order to mask the real location of the C&C server.
 
 ## What does PacketWhisperer do?
 
