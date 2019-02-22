@@ -18,8 +18,8 @@ The objective is to exfiltrate data from an infected client to an attacker-contr
 * The encrypted command will be stored in the `Resource Data` section of the DNS response.
 
 ### C&C Server
-* [Maybe talk about using a cloud provider like AWS and possible limitations]
-    * Bringing instance offline will change IP so that's a big nono for AWS
+* We were thinking of using a cloud provider like AWS for our C&C server.
+  * AWS usually changes the IP of a server every time it is turned off and on so we will be using Elastic IPs to ensure we can perform DNS Tunneling.
 * To make our covert channel more inconspicuous, the server will be assigned a domain name that is similar to a legitimate service provided online, such as OS updates, ad servers, or services that require constant updates like weather, stocks, news, etc.
 
 #### Server Payload
@@ -27,7 +27,7 @@ The objective is to exfiltrate data from an infected client to an attacker-contr
 * One of the main challenges is ensuring that large pieces of data transfer reliably without any leakage of data.
     * Because of the limitations placed on subdomain lengths, we need to work around a 63 char limit for each "label" in a given domain, where a label is defined as "consists of a length octet followed by that number of octets".
 * A proposed solution is to take advantage of having multiple layers in our subdomain to help identify requests and store payload. To achieve this, we use one layer to store the **header** information and the other layer to store the **payload**.
-    * The **header** will consist of information such as identifying the start/end of payload transferring and sequence number that determines the order of the current payload being transferred.
+    * The **header** will consist of information such as identifying the start/end of payload transferring, sequence number that determines the order of the current payload being transferred and an id for the machine (to identify multiple clients).
     * The **payload** consists of the data that we want to transfer.
     * A URL sent to our C&C server will follow a schema like this:
     ```
@@ -35,7 +35,7 @@ The objective is to exfiltrate data from an infected client to an attacker-contr
     ```
     
 ### Infected Client
-* Our infected client will be a VM running Ubuntu 16.04 (?).
+* Our infected client will be a VM running a flavor of Linux (most likely Ubuntu 16.04).
 
 ### Features
 * **Command Transmission**
@@ -50,4 +50,7 @@ The objective is to exfiltrate data from an infected client to an attacker-contr
     * Additional configurations can be included in the settings file for masking connections as being sent from other applications, like Firefox.
 
 ## References
-1. [What is the maximum length of a DNS name](https://stackoverflow.com/questions/32290167/what-is-the-maximum-length-of-a-dns-name)
+[1]. [What is the maximum length of a DNS name?](https://stackoverflow.com/questions/32290167/what-is-the-maximum-length-of-a-dns-name)<br>
+[2]. [DNS Tunneling w/ Iodine](https://webcache.googleusercontent.com/search?q=cache:JZvVOFkFdy8J:https://blog.duman.me/dns-tunneling-w-iodine/+&cd=2&hl=en&ct=clnk&gl=us)<br>
+[3]. [Command and Control](https://azeria-labs.com/command-and-control/)<br>
+[4]. [Detecting DNS Tunneling](https://www.sans.org/reading-room/whitepapers/dns/detecting-dns-tunneling-34152)<br>
