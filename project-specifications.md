@@ -27,7 +27,7 @@ The objective is to exfiltrate data from an infected client to an attacker-contr
 * One of the main challenges is ensuring that large pieces of data transfer reliably without any leakage of data.
     * Because of the limitations placed on subdomain lengths, we need to work around a 63 char limit for each "label" in a given domain, where a label is defined as "consists of a length octet followed by that number of octets".
 * A proposed solution is to take advantage of having multiple layers in our subdomain to help identify requests and store payload. To achieve this, we use one layer to store the **header** information and the other layer to store the **payload**.
-    * The **header** will consist of information such as identifying the start/end of payload transferring, sequence number that determines the order of the current payload being transferred and an id for the machine (to identify multiple clients).
+    * The **header** will consist of information such as identifying the start/end of payload transferring, sequence number that determines the order of the current payload being transferred and a unique identifier for the machine (to identify and handle communication with multiple clients).
     * The **payload** consists of the data that we want to transfer.
     * A URL sent to our C&C server will follow a schema like this:
     ```
