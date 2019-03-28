@@ -27,6 +27,7 @@ def load_configs(config_file, config_section, config_keys):
 
     for key in config_keys:
         if key not in config[config_section]:
+            print(key)
             return None
 
     return config[config_section]

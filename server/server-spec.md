@@ -38,10 +38,24 @@ These are crucial files that will be used by the server program.
 **datarecv.py**
 
 * This class is used for handling the data that is being transferred from the clients to the server.
-* It will maintain a mapping for each of the connected clients and will writ the corresponding extracted data in a folder that corresponds to that user.
+* For every client that **pings** the server the first time, a new directory will be created named after the victim's IP address in the data folder (more information below).
+* There will be 3 types of requests that the server will receive from the clients (specified in `request_type.py`). All clients will be identified by their IPv4 addresses:
+  * PING - corresponds to client request to check for available commands.
+  * DATA - packets that contain data corresponding to the current file transmission.
+  * RECEIPT - results or output from running commands on client machines.
+* For handling DATA and RECEIPT requests, it will maintain a mapping for each of the connected clients and will write the corresponding extracted data in a folder that corresponds to that user (identified by IP address).
   * Ideally, we should be able to create a folder for each user given their IP address and write the corresponding file contents in them.
   * Files will be written based on a prologue or beginning packet and will terminate once it receives a epilogue or terminating packet.
   * Files will be transferred one at a time whenever there is new data available from the client and read by the server.
+
+**cmdqueue.py**
+
+* This file will hold the commands that will execute on victim machines after being read from a directory.
+* The commands to be executed can be placed inside `./data` folder or whatever location specified by the configuration file (folder structure shown below).
+* The input folder of the victim will hold the commands to be executed and will be read periodically.
+* *tnnl* will support two types of commands:
+  *  bash - commands that will be executed in the victim's shell
+  * get - used for retrieving any file on victim machines, with the syntax `get: <file_path>`.
 
 **config.ini**
 
@@ -50,3 +64,19 @@ These are crucial files that will be used by the server program.
   * Time-intervals for client to request for commands from the server.
   * The application the client and server will disguise as to keep communications covert if applicable.
   * The data rate at which the client should send data back to the server.
+  * More will be added in future iterations.
+
+### Folder Structure
+
+```
+data/
+├── 130.43.66.24/
+│   ├── input/
+│   └── output/
+├── 75.25.64.188/
+└── 12.53.155.64/
+```
+
+* The data folder will contain directories that correspond to each victim machine with a given IP address.
+  * The `input` folder will contain text files that are placed by the attacker containing commands to be issued. Once the server processes the commands, the file read will be deleted.
+  * The `output` folder will contain files retrieved by the client programs along with the output logs from executed commands if available.

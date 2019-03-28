@@ -8,11 +8,11 @@ from configs import config
 
 class TnnlServer():
 
-    def __init__(self, config = DEFAULT_CONFIG_PATH):
+    def __init__(self, path = DEFAULT_CONFIG_PATH):
         
-        self.server_conf = config.load_configs(config, CONFIG_SERVER, CONFIG_SERVER_KEYS) if config != None else default_server_conf()
+        self.server_conf = config.load_configs(path, CONFIG_SERVER, CONFIG_SERVER_KEYS) if path != None else default_server_conf()
 
-        self.client_conf = config.load_configs(config, CONFIG_CLIENT, CONFIG_CLIENT_KEYS) if config != None else default_client_conf()
+        self.client_conf = config.load_configs(path, CONFIG_CLIENT, CONFIG_CLIENT_KEYS) if path != None else default_client_conf()
 
         print(self.server_conf)
         print(self.client_conf)

