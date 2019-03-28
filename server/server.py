@@ -1,14 +1,21 @@
 import argparse
 import os
 
-from scapy.all import *
+# from scapy.all import *
 from sys import argv, exit
+from utils.consts import *
+from configs import config
 
 class TnnlServer():
 
-    def __init__(self, interface = DEFAULT_INTERFACE, config = DEFAULT_CONFIG_PATH):
-        self.interface = interface
+    def __init__(self, config = DEFAULT_CONFIG_PATH):
+        
+        self.server_conf = config.load_configs(config, CONFIG_SERVER, CONFIG_SERVER_KEYS) if config != None else default_server_conf()
 
+        self.client_conf = config.load_configs(config, CONFIG_CLIENT, CONFIG_CLIENT_KEYS) if config != None else default_client_conf()
+
+        print(self.server_conf)
+        print(self.client_conf)
 
 def arg_parse():
     parser = argparse.ArgumentParser(
@@ -16,12 +23,11 @@ def arg_parse():
         epilog = '0.0.1'
     )
 
-    parser.add_argument('-i', metavar = '', required = False, help = HELP_INTERFACE)
     parser.add_argument('-c', metavar = '', required = False, help = HELP_CONFIG_PATH)
 
     args = parser.parse_args()
 
-    if len(args) < 1:
+    if len(argv) < 1:
         parser.print_help()
         exit(1)
 
@@ -29,6 +35,7 @@ def arg_parse():
 
 def main():
     args = arg_parse()
+    tnnl = TnnlServer(args.c)
 
 if __name__ == '__main__':
     main()
