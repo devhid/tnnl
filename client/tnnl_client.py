@@ -2,7 +2,7 @@
 from twisted.internet import reactor, task
 
 # internal imports
-from config import PING_INTERVAL
+from constants import PING_INTERVAL
 from request import Request
 from command import Command
 from request_type import RequestType

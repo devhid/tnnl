@@ -1,6 +1,6 @@
 class Command:
-""" A class for handling the command sent by the C&C server. """
-    
+    """ A class for handling the command sent by the C&C server. """
+
     def __init__(self, encoded_command):
         self.cmd = encrypted_command
     
