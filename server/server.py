@@ -27,5 +27,8 @@ def arg_parse():
 
     return args
 
+def main():
+    args = arg_parse()
+
 if __name__ == '__main__':
     main()
