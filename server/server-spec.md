@@ -55,6 +55,14 @@ These are crucial files that will be used by the server program.
   * Ideally, we should be able to create a folder for each user given their **MAC address** and write the corresponding file contents in them.
   * Files will be written based on a prologue or beginning packet and will terminate once it receives a epilogue or terminating packet.
   * Files will be transferred one at a time whenever there is new data available from the client and read by the server.
+* The data being sent in the server will mainly be encoded within the DNS request URL from the client.
+  * One part of the entire domain will be reserved for the metadata, the actual payload, and the domain name.
+    ```
+    <metadata>.<payload>.server.com
+    ```
+    * We have to keep in mind that the domain names do have a size constraint of 255 bytes or 255 chars (which includes every character including the periods).
+    * Therefore, we need to store only essential information as metadata, like the sequence of the packet (so they can be reordered if needed).
+    * The QTYPE of the DNSQR field will store the value that corresponds the payload to the type of data being transmitted, like PING, FILE, and RECEIPT.
 
 **cmdqueue.py**
 
