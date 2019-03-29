@@ -149,9 +149,9 @@ The client program is responsible for reading and executing commands sent by the
 
 * The server will need to know what type of DNS request the client will be sending. In order to identify the three different types, **PING**, **DATA**, and **RECEIPT**, we can use the `qtype` field in the `Question Record` in a DNS packet.
 
-  * **PING**: `qtype = "A"`
+  * **PING**: `qtype = "TXT"`
 
-  * **DATA**: `qtype = "TXT"`
+  * **DATA**: `qtype = "A"`
 
   * **RECEIPT**: `qtype = "CNAME"`
 
