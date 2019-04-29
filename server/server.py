@@ -5,6 +5,7 @@ import os
 from sys import argv, exit
 from utils.consts import *
 from configs import config
+from command.cmdqueue import CommandQueue
 
 class TnnlServer():
 
@@ -16,6 +17,10 @@ class TnnlServer():
 
         print(self.server_conf)
         print(self.client_conf)
+
+        path = os.path.dirname(os.path.abspath(__file__)) + '/data'
+        c = CommandQueue(path, 'cmd.txt')
+        c.start_listening()
 
 def arg_parse():
     parser = argparse.ArgumentParser(
