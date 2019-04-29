@@ -7,8 +7,9 @@ DEFAULT_CONFIG_PATH = 'config.ini'
 
 # Defaults for Server
 DEFAULT_SERVER_INTERFACE = 'eth0'
-DEFAULT_DATA_DIR = './data' # Storage of exfiltrated data
+DEFAULT_DATA_DIR = '/data' # Storage of exfiltrated data
 DEFAULT_CMD_FILE = 'cmd.txt'
+DEFAULT_SECRET = 'secret' # Used for encrypting payload
 
 # Defaults for Client
 DEFAULT_CLIENT_PING_INTERVAL = '60' # Measured in minutes for checking commands on server
@@ -26,7 +27,8 @@ def default_server_conf():
     return {
         'interface': DEFAULT_SERVER_INTERFACE,
         'data_dir': DEFAULT_DATA_DIR,
-        'cmd_file': DEFAULT_CMD_FILE
+        'cmd_file': DEFAULT_CMD_FILE,
+        'secret-key': DEFAULT_SECRET
     }
 
 def default_client_conf():
