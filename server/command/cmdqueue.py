@@ -45,11 +45,6 @@ class CommandQueue():
                         line = line.replace('\n', '')
                         commands.append(Encrypter(line, 'secret').encrypt())
 
-                    print(commands)
-
-                    for c in commands:
-                        print(Encrypter(c, 'secret').decrypt())
-
                     # Prepare for transmission
 
                 # os.remove(dir + '/input/' + self.command_file) # Done reading file
