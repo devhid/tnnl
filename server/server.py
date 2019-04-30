@@ -18,9 +18,6 @@ class TnnlServer():
         print(self.server_conf)
         print(self.client_conf)
 
-        packets = rdpcap('packet_dump')
-        print(packets)
-
         path = os.path.dirname(os.path.abspath(__file__)) + '/data'
         c = CommandTask(path, 'cmd.txt')
         c.start()

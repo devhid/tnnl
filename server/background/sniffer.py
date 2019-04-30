@@ -5,10 +5,10 @@ from datarecv import DataReceiver
 
 class Sniffer():
 
-    def __init__(self, interface, packet_filter):
+    def __init__(self, interface, packet_filter, cmd_file):
         self.interface = interface
         self.bpf = 'udp' + (f' and {packet_filter}' if len(packet_filter) > 0 else '') # Setup filter to automatically filter for UDP
-        self.parser = DataReceiver()
+        self.parser = DataReceiver(cmd_file)
 
     def start(self):
         thread = Thread(target = self._receive)
