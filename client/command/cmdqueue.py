@@ -20,4 +20,10 @@ class CommandQueue:
         return command
     
     def process(self):
-        
+        if not self.queue.empty():
+            cmd = self.queue.dequeue()
+
+            if cmd == None:
+                return
+            
+            
