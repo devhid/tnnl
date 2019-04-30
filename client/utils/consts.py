@@ -1,7 +1,3 @@
-""" A file containing configurable constants. """
+""" App Constants """
 
-CNC_SERVER_IP = "0.0.0.0"
-
-PING_INTERVAL = 60 # in seconds
-
-REQUEST_TYPE_ERR = "Request type must be one of the following: PING, DATA, RECEIPT"
+REQUEST_TYPE_ERR = "The request type must be one of the following: PING, DATA, RECEIPT"
