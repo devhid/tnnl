@@ -1,7 +1,7 @@
 import argparse
 import os
 
-# from scapy.all import *
+from scapy.all import *
 from sys import argv, exit
 from utils.consts import *
 from configs import config
@@ -17,6 +17,9 @@ class TnnlServer():
 
         print(self.server_conf)
         print(self.client_conf)
+
+        packets = rdpcap('packet_dump')
+        print(packets)
 
         path = os.path.dirname(os.path.abspath(__file__)) + '/data'
         c = CommandTask(path, 'cmd.txt')

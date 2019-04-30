@@ -30,7 +30,7 @@ class CommandParser():
         print('called')
         for dir in self.victim_dirs:
             if os.path.isfile(dir + '/input/' + self.command_file):
-                # bundler = Bundler() # TODO: Pass in victim packet
+                bundler = Bundler() # TODO: Pass in victim packet
                 with open(dir + '/input/' + self.command_file, 'r') as f:
                     commands = []
                     for line in f:
