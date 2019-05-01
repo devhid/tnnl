@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
-class RequestType(Enum):
+class RequestType(IntEnum):
     
-    PING = 'TXT',
-    DATA = 'A',
-    RECEIPT = 'CNAME'
+    PING = 16, # TXT
+    DATA = 1, # A
+    RECPT = 5 # CNAME

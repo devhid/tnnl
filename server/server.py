@@ -5,7 +5,7 @@ from scapy.all import *
 from sys import argv, exit
 from utils.consts import *
 from configs import config
-from background.cmd_task import CommandTask
+from background.sniffer import Sniffer
 
 class TnnlServer():
 
@@ -18,9 +18,11 @@ class TnnlServer():
         print(self.server_conf)
         print(self.client_conf)
 
-        path = os.path.dirname(os.path.abspath(__file__)) + '/data'
-        c = CommandTask(path, 'cmd.txt')
-        c.start()
+        rel_path = os.path.dirname(os.path.abspath(__file__)) + '/data/'
+
+        # Start our sniffer
+        sniffer = Sniffer(interface='eth0', packet_filter='udp and src port 53', rel_path=rel_path, cmd_file=self.server_conf['cmd_file'])
+        sniffer.start()
 
 def arg_parse():
     parser = argparse.ArgumentParser(

