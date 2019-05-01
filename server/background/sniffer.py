@@ -6,13 +6,14 @@ from command.cmdqueue import CommandQueue
 
 class Sniffer():
 
-    def __init__(self, interface, packet_filter, rel_path, cmd_file):
+    def __init__(self, interface, packet_filter, rel_path, cmd_file, config):
         self.interface = interface
         self.bpf = packet_filter
+        self.config = config
 
         # Receive packets
         self.queue = CommandQueue(self.interface)
-        self.parser = DataReceiver(rel_path, cmd_file, self.queue)
+        self.parser = DataReceiver(rel_path, cmd_file, self.queue, self.config)
         self.stopped = False
 
     def start(self):

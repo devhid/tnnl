@@ -1,5 +1,7 @@
 """App constants"""
 
+from collections import namedtuple
+
 # Help Messages
 HELP_CONFIG_PATH = 'Path to custom *.ini file containing config server/client settings.'
 
@@ -7,7 +9,7 @@ DEFAULT_CONFIG_PATH = 'config.ini'
 
 # Defaults for Server
 DEFAULT_SERVER_INTERFACE = 'eth0'
-DEFAULT_DATA_DIR = '/data' # Storage of exfiltrated data
+DEFAULT_DATA_DIR = '/data/' # Storage of exfiltrated data
 DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
 
@@ -20,20 +22,23 @@ DEFAULT_CLIENT_DATA_TRANSFER_INTERVAL = 1
 # Config files
 CONFIG_SERVER = 'SERVER'
 CONFIG_CLIENT = 'CLIENT'
-CONFIG_SERVER_KEYS = ['interface', 'data_dir']
+CONFIG_SERVER_KEYS = ['interface', 'data_dir', 'cmd_file', 'secret_key']
 CONFIG_CLIENT_KEYS = ['client_ping_interval', 'client_domain', 'client_cname', 'client_data_transfer_interval']
 
+ServerConf = namedtuple('ServerConf', ['interface', 'data_dir', 'cmd_file', 'secret_key'])
+ClientConf = namedtuple('ClientConf', ['client_ping_interval', 'client_domain', 'client_name'])
+
 def default_server_conf():
-    return {
-        'interface': DEFAULT_SERVER_INTERFACE,
-        'data_dir': DEFAULT_DATA_DIR,
-        'cmd_file': DEFAULT_CMD_FILE,
-        'secret-key': DEFAULT_SECRET
-    }
+    return ServerConf(
+        interface=DEFAULT_SERVER_INTERFACE,
+        data_dir=DEFAULT_DATA_DIR,
+        cmd_file=DEFAULT_CMD_FILE,
+        secret_key=DEFAULT_SECRET
+    )
 
 def default_client_conf():
-    return {
-        'client_ping_interval': DEFAULT_CLIENT_PING_INTERVAL,
-        'client_domain': DEFAULT_CLIENT_DOMAIN,
-        'client_name': DEFAULT_CLIENT_CNAME
-    }
+    return ClientConf(
+        client_ping_interval=DEFAULT_CLIENT_PING_INTERVAL,
+        client_domain=DEFAULT_CLIENT_DOMAIN,
+        client_name=DEFAULT_CLIENT_CNAME
+    )

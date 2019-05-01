@@ -11,11 +11,12 @@ from command.cmdparser import CommandParser
 
 class DataReceiver():
 
-    def __init__(self, rel_path, cmd_file, queue):
-        self.cmd_parser = CommandParser()
+    def __init__(self, rel_path, cmd_file, queue, config):
+        self.cmd_parser = CommandParser(config)
         self.rel_path = rel_path
         self.cmd_file = cmd_file
         self.queue = queue
+        self.config = config
 
         self.file_transfer = dict()
 
