@@ -1,3 +1,5 @@
+#!/bin/python
+
 import argparse
 import os
 
@@ -21,7 +23,7 @@ class TnnlServer():
         rel_path = os.path.dirname(os.path.abspath(__file__)) + '/data/'
 
         # Start our sniffer
-        sniffer = Sniffer(interface='eth0', packet_filter='udp and src port 53', rel_path=rel_path, cmd_file=self.server_conf['cmd_file'])
+        sniffer = Sniffer(interface='eth0', packet_filter='udp and src port 53 and dst 192.168.67.149', rel_path=rel_path, cmd_file=self.server_conf['cmd_file'])
         sniffer.start()
 
 def arg_parse():

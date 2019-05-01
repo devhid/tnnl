@@ -23,12 +23,13 @@ class CommandQueue():
         return command_pkt
 
     def process(self):
-        if not self.queue:
+        if self.queue:
             command_pkt = self.dequeue()
+            print('sending packet')
 
             if command_pkt == None:
                 return
         
             # Send the packet that was built
-            sendp(command_pkt, iface = self.interface)
+            # sendp(command_pkt, iface = self.interface)
             self.socket.send(command_pkt)

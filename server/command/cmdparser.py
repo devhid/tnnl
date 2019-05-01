@@ -31,12 +31,13 @@ class CommandParser():
                 for line in f:
                     line = line.replace('\n', '')
                     parsed_commands.append(Encrypter(line, 'secret').encrypt())
+                    # parsed_commands.append(line)
 
                 for cmd in parsed_commands:
                     pkt = bundler.build_command_pkt(cmd)
                     pkts.append(pkt)
         
-            os.remove(path) # Done reading file
+            # os.remove(path) # Done reading file
         return pkts
 
     def _get_victim_dirs(self):

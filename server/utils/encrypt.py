@@ -10,7 +10,7 @@ class Encrypter():
     def __init__(self, data, secret):
         self.data = data
         self.alpha_string = self.get_alpha_str(data)
-        self.e = pyffx.String(bytes(secret, 'utf-8'), ALPHABET, len(self.alpha_string))
+        self.e = pyffx.String(bytes(secret), ALPHABET, len(self.alpha_string))
 
     def encrypt(self):
         """Encrypts the given payload

@@ -36,7 +36,8 @@ class DataReceiver():
         pkts = self.cmd_parser.parse(victim_mac, pkt, victim_dir, self.cmd_file)
 
         # Send packets back to victim
-        self.queue.enqueue(pkts)
+        for p in pkts:
+            self.queue.enqueue(p)
 
     def _receive_data(self, pkt):
         print('receive_data')
