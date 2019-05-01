@@ -67,7 +67,6 @@ class DataReceiver():
             self.file_transfer[str(victim_mac)] = ''
         elif dnsqr_layer.qclass == DataRequestType.NORMAL:
             dnsrr_layer = pkt.getlayer(DNSRR)
-            
             buffer = ''
             fields = dnsrr_layer.rrname[:-1].split('.') # There is a trailing period
             for i in range(1, len(fields) - 3):
