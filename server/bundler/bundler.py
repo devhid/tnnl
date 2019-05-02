@@ -43,7 +43,7 @@ class Bundler():
             ns=None, ar=None,
             qd = dnsqr_layer,
             an = DNSRR(
-                rrname=self.victim_mac.minify() + '.cp501-prod.do.dsp.microsoft.com', # Update with spoof address
+                rrname=self.victim_mac.minify() + self.config.domain, # Update with spoof address
                 type='TXT',
                 rclass='IN', # Update?
                 ttl=700,

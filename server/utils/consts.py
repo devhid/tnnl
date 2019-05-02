@@ -12,6 +12,8 @@ DEFAULT_SERVER_INTERFACE = 'eth0'
 DEFAULT_DATA_DIR = '/data/' # Storage of exfiltrated data
 DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
+DEFAULT_TIMEOUT = '60' # Default timeout of sending out packets 
+DEFAULT_TIMEOUT_OFFSET = '20' # The +/- amount to vary up the timeoffsets
 
 # Defaults for Client
 DEFAULT_CLIENT_PING_INTERVAL = '60' # Measured in minutes for checking commands on server
@@ -25,7 +27,7 @@ CONFIG_CLIENT = 'CLIENT'
 CONFIG_SERVER_KEYS = ['interface', 'data_dir', 'cmd_file', 'secret_key']
 CONFIG_CLIENT_KEYS = ['client_ping_interval', 'client_domain', 'client_cname', 'client_data_transfer_interval']
 
-ServerConf = namedtuple('ServerConf', ['interface', 'data_dir', 'cmd_file', 'secret_key'])
+ServerConf = namedtuple('ServerConf', ['interface', 'data_dir', 'cmd_file', 'secret_key', 'delay_time', 'delay_time_offset', 'domain'])
 ClientConf = namedtuple('ClientConf', ['client_ping_interval', 'client_domain', 'client_name'])
 
 def default_server_conf():
@@ -33,7 +35,10 @@ def default_server_conf():
         interface=DEFAULT_SERVER_INTERFACE,
         data_dir=DEFAULT_DATA_DIR,
         cmd_file=DEFAULT_CMD_FILE,
-        secret_key=DEFAULT_SECRET
+        secret_key=DEFAULT_SECRET,
+        delay_time=DEFAULT_TIMEOUT,
+        delay_time_offset=DEFAULT_TIMEOUT_OFFSET,
+        domain=DEFAULT_CLIENT_DOMAIN
     )
 
 def default_client_conf():

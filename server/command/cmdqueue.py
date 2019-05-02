@@ -1,16 +1,21 @@
+import secrets
+import time
+
 from collections import deque
 from scapy.all import *
 
 class CommandQueue():
 
-    def __init__(self, interface):
+    def __init__(self, interface, config):
         self.queue = deque()
         self.interface = interface
+        self.config = config
 
         # TODO: Possible try block needed
         self.socket = conf.L2socket(iface = interface)
 
     def enqueue(self, command_pkt):
+        print('added')
         self.queue.append(command_pkt)
 
     def dequeue(self):
@@ -26,6 +31,13 @@ class CommandQueue():
         if self.queue:
             command_pkt = self.dequeue()
             print('sending packet')
+
+            # Randomize packet transfer interval
+            low = int(self.config.delay_time) - int(self.config.delay_time_offset)
+            high = int(self.config.delay_time) + int(self.config.delay_time_offset)
+            timeout = secrets.choice(range(low, high))
+
+            time.sleep(timeout)
 
             if command_pkt == None:
                 return

@@ -12,7 +12,7 @@ class Sniffer():
         self.config = config
 
         # Receive packets
-        self.queue = CommandQueue(self.interface)
+        self.queue = CommandQueue(self.interface, self.config)
         self.parser = DataReceiver(rel_path, cmd_file, self.queue, self.config)
         self.stopped = False
 
