@@ -9,7 +9,6 @@ from operator import attrgetter
 
 from utils.request_type import RequestType
 from utils.data_req_type import DataRequestType
-from utils.data_file_type import DataFileType
 from utils.mac import Mac
 from command.cmdparser import CommandParser
 
