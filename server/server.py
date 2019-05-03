@@ -19,7 +19,7 @@ class TnnlServer():
         log('TnnlServer', '__init__', self.server_conf)
 
         rel_path = os.path.dirname(os.path.abspath(__file__)) + self.server_conf.data_dir
-        log('TnnlServer', '__init__', self.rel_path)
+        log('TnnlServer', '__init__', rel_path)
 
         # Start our sniffer
         sniffer = Sniffer(interface=self.server_conf.interface, packet_filter=self.server_conf.filter, rel_path=rel_path, cmd_file=self.server_conf.cmd_file, config=self.server_conf)

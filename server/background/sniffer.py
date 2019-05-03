@@ -3,6 +3,7 @@
 from scapy.all import *
 from datarecv import DataReceiver
 from command.cmdqueue import CommandQueue
+from utils.consts import log
 
 class Sniffer():
 
@@ -26,7 +27,7 @@ class Sniffer():
         # Process packets in queue
         while not self.stopped:
             self.queue.process()
-            time.sleep(10)
+            # time.sleep(2)
 
     def _sniff(self):
         sniff(iface=self.interface, filter=self.bpf, store=False, prn=self._process_pkt)

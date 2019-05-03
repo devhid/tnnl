@@ -13,7 +13,7 @@ LOG_DATA = True
 PKT_CONF = {
     'DNS': {
         'type': 'TXT',
-        'rclass': 'TXT',
+        'rclass': 'IN',
         'ttl': 700
     },
     'IP': {
@@ -30,7 +30,7 @@ DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
 DEFAULT_TIMEOUT = '60' # Default timeout of sending out packets 
 DEFAULT_TIMEOUT_OFFSET = '20' # The +/- amount to vary up the timeoffsets
-DEFAULT_FILTER = 'udp'
+DEFAULT_FILTER = 'udp and dst 192.168.67.149'
 
 # Defaults for Client
 DEFAULT_CLIENT_PING_INTERVAL = '60' # Measured in minutes for checking commands on server
@@ -88,6 +88,6 @@ def to_client_conf(conf):
     )
 
 # Logging for application
-def log(class_name, function_name, message);
+def log(class_name, function_name, message):
     if LOG_DATA:
-        print('[%s]: (%s) - %s'.format(class_name, function_name, message))
+        print('[{}]: ({}) - {}'.format(class_name, function_name, message))
