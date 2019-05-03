@@ -28,6 +28,9 @@ class DataReceiver():
 
     def parse(self, pkt):
         # Check qtype field to delineate type of given packet
+        if not pkt.haslayer(DNSQR):
+            return
+
         if pkt.getlayer(DNSQR).qtype == RequestType.PING:
             self._receive_ping(pkt)
         elif pkt.getlayer(DNSQR).qtype == RequestType.DATA:

@@ -13,12 +13,9 @@ class TnnlServer():
 
     def __init__(self, path = DEFAULT_CONFIG_PATH):
         
-        self.server_conf = config.load_configs(path, CONFIG_SERVER, CONFIG_SERVER_KEYS) if path != None else default_server_conf()
-
-        self.client_conf = config.load_configs(path, CONFIG_CLIENT, CONFIG_CLIENT_KEYS) if path != None else default_client_conf()
+        self.server_conf = to_server_conf(config.load_configs(path, CONFIG_SERVER, CONFIG_SERVER_KEYS)) if path != None else default_server_conf()
 
         print(self.server_conf)
-        print(self.client_conf)
 
         rel_path = os.path.dirname(os.path.abspath(__file__)) + self.server_conf.data_dir
 

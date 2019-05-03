@@ -43,6 +43,8 @@ class CommandParser():
                     parsed_commands.append(Encrypter(line, 'secret').encrypt())
                     # parsed_commands.append(line)
 
+                print(parsed_commands)
+
                 for cmd in parsed_commands:
                     pkt = bundler.build_command_pkt(cmd)
                     pkts.append(pkt)

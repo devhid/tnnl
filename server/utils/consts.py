@@ -47,3 +47,21 @@ def default_client_conf():
         client_domain=DEFAULT_CLIENT_DOMAIN,
         client_name=DEFAULT_CLIENT_CNAME
     )
+
+def to_server_conf(conf):
+    return ServerConf(
+        interface=conf['interface'],
+        data_dir=conf['data_dir'],
+        cmd_file=conf['cmd_file'],
+        secret_key=conf['secret_key'],
+        delay_time=conf['delay_time'],
+        delay_time_offset=conf['delay_time_offset'],
+        domain=conf['domain']
+    )
+
+def to_client_conf(conf):
+    return ClientConf(
+        client_ping_interval=conf['client_ping_interval'],
+        client_domain=conf['client_domain'],
+        client_name=conf['client_name']
+    )
