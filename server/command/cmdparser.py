@@ -8,6 +8,7 @@ import time
 from threading import Thread, Timer
 # from ..utils.consts import DEFAULT_DATA_DIR, DEFAULT_CMD_FILE
 from utils.encrypt import Encrypter
+from utils.consts import SECRET
 from bundler.bundler import Bundler
 
 class CommandParser():
@@ -40,10 +41,8 @@ class CommandParser():
 
                 for line in f:
                     line = line.replace('\n', '')
-                    parsed_commands.append(Encrypter(line, 'secret').encrypt())
+                    parsed_commands.append(Encrypter(line, SECRET).encrypt())
                     # parsed_commands.append(line)
-
-                print(parsed_commands)
 
                 for cmd in parsed_commands:
                     pkt = bundler.build_command_pkt(cmd)

@@ -26,11 +26,11 @@ class Sniffer():
         # Process packets in queue
         while not self.stopped:
             self.queue.process()
+            time.sleep(10)
 
     def _sniff(self):
         sniff(iface=self.interface, filter=self.bpf, store=False, prn=self._process_pkt)
 
     def _process_pkt(self, pkt):
         # Perform associated actions for type of packet
-        # print(pkt.show())
         self.parser.parse(pkt)

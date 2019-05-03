@@ -20,7 +20,7 @@ class TnnlServer():
         rel_path = os.path.dirname(os.path.abspath(__file__)) + self.server_conf.data_dir
 
         # Start our sniffer
-        sniffer = Sniffer(interface=self.server_conf.interface, packet_filter='udp', rel_path=rel_path, cmd_file=self.server_conf.cmd_file, config=self.server_conf)
+        sniffer = Sniffer(interface=self.server_conf.interface, packet_filter=self.server_conf.filter, rel_path=rel_path, cmd_file=self.server_conf.cmd_file, config=self.server_conf)
         sniffer.start()
 
 def arg_parse():
@@ -29,7 +29,7 @@ def arg_parse():
         epilog = '0.0.1'
     )
 
-    parser.add_argument('-c', metavar = '', required = False, help = HELP_CONFIG_PATH)
+    parser.add_argument('--c', metavar = '', required = False, help = HELP_CONFIG_PATH)
 
     args = parser.parse_args()
 
