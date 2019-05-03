@@ -1,3 +1,2 @@
+ls -a
 htop
-ls
-cd ~
