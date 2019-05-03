@@ -37,7 +37,7 @@ class CommandQueue():
             low = int(self.config.delay_time) - int(self.config.delay_time_offset)
             high = int(self.config.delay_time) + int(self.config.delay_time_offset)
             timeout = secrets.choice(range(low, high))
-            log('CommandQueue', 'process', 'Timeout ({})'.format(timeout)))
+            log('CommandQueue', 'process', 'Timeout ({})'.format(timeout))
 
             time.sleep(timeout)
 
