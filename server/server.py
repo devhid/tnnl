@@ -23,7 +23,7 @@ class TnnlServer():
         rel_path = os.path.dirname(os.path.abspath(__file__)) + self.server_conf.data_dir
 
         # Start our sniffer
-        sniffer = Sniffer(interface=self.server_conf.interface, packet_filter='udp and src port 53 and dst port 53 and dst 192.168.67.149', rel_path=rel_path, cmd_file=self.server_conf.cmd_file, config=self.server_conf)
+        sniffer = Sniffer(interface=self.server_conf.interface, packet_filter='udp', rel_path=rel_path, cmd_file=self.server_conf.cmd_file, config=self.server_conf)
         sniffer.start()
 
 def arg_parse():

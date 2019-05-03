@@ -8,7 +8,7 @@ HELP_CONFIG_PATH = 'Path to custom *.ini file containing config server/client se
 DEFAULT_CONFIG_PATH = 'config.ini'
 
 # Defaults for Server
-DEFAULT_SERVER_INTERFACE = 'eth0'
+DEFAULT_SERVER_INTERFACE = 'ens3'
 DEFAULT_DATA_DIR = '/data/' # Storage of exfiltrated data
 DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
