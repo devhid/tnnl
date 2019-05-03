@@ -1,5 +1,9 @@
 # system imports
 import time
+from threading import Thread
+
+# library imports
+from scapy.all import sniff
 
 # internal imports
 from command.cmdqueue import CommandQueue
@@ -17,22 +21,24 @@ class Sniffer:
         self.queue = CommandQueue()
         self.parser = CommandParser()
     
-    def start():
+    def start(self):
+        print("[Sniffer] Started")
         thread = Thread(target = self._sniff)
         thread.daemon = True
         thread.start()
 
         time.sleep(1) # add delay to prevent resource lock (might not be needed)
 
-        while not stopped:
+        while not self.stopped:
+            print("[Sniffer] Processing...")
             self.queue.process()
+            time.sleep(2) # sleep so queue has time to process
     
     def _process_packet(self, pkt):
-        cmd = parser.parse(pkt)
+        cmd = self.parser.parse(pkt)
         if cmd != None:
             self.queue.enqueue(Command(pkt))
 
     def _sniff(self):
-        global stopped
-        sniff(iface=self.interface, filter=self.packet_filter, store=0, prn=self._process_packet)
-        stopped = True
+        sniff(iface=self.interface, filter=self.filter, store=0, prn=self._process_packet)
+        self.stopped = True

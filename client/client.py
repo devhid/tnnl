@@ -1,13 +1,14 @@
 # internal imports
-from threading.sniffer import Sniffer
-from threading.pinger import Pinger
+from tasks.sniffer import Sniffer
+from tasks.pinger import Pinger
+from utils.consts import INTERFACE, PING_INTERVAL, SNIFF_FILTER
 
 def main():
-    sniffer = Sniffer(interface="eth0", packet_filter="src port 53")
-    sniffer.start()
-
-    pinger = Pinger(ping_interval=60)
+    pinger = Pinger(ping_interval=PING_INTERVAL)
     pinger.start()
+
+    sniffer = Sniffer(interface=INTERFACE, packet_filter=SNIFF_FILTER)
+    sniffer.start()
 
 if __name__ == "__main__":
     main()

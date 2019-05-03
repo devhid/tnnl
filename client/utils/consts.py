@@ -1,3 +1,29 @@
 """ App Constants """
 
 REQUEST_TYPE_ERR = "The request type must be one of the following: PING, DATA, RECEIPT"
+PING_INTERVAL = 10
+
+INTERFACE = "en0"
+SNIFF_FILTER = "src port 53"
+
+CC_SERVER_SPOOFED_HOST = ""
+CC_SERVER_IP = ""
+
+DATA_CHUNK_SIZE = 255
+
+PACKET_OPTIONS = {
+    "UDP": {
+        "SPORT": 53,
+        "DPORT": 53
+    },
+
+    "DNS": {
+        "QR": 0,
+        "QDCOUNT": 1,
+        "ANCOUNT": 1,
+        "AN": {
+            "TYPE": "TXT"
+        }
+    }
+}
+
