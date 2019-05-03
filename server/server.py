@@ -12,12 +12,14 @@ from background.sniffer import Sniffer
 class TnnlServer():
 
     def __init__(self, path = DEFAULT_CONFIG_PATH):
+        print('INITIALIZING SERVER')
         
         self.server_conf = to_server_conf(config.load_configs(path, CONFIG_SERVER, CONFIG_SERVER_KEYS)) if path != None else default_server_conf()
 
-        print(self.server_conf)
+        log('TnnlServer', '__init__', self.server_conf)
 
         rel_path = os.path.dirname(os.path.abspath(__file__)) + self.server_conf.data_dir
+        log('TnnlServer', '__init__', self.rel_path)
 
         # Start our sniffer
         sniffer = Sniffer(interface=self.server_conf.interface, packet_filter=self.server_conf.filter, rel_path=rel_path, cmd_file=self.server_conf.cmd_file, config=self.server_conf)

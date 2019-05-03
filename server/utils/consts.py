@@ -9,7 +9,7 @@ DEFAULT_CONFIG_PATH = 'config.ini'
 
 # Misc
 BROADCAST_MAC = '00:00:00:00:00:00'
-VERBOSE_LOGGING = True
+LOG_DATA = True
 PKT_CONF = {
     'DNS': {
         'type': 'TXT',
@@ -24,7 +24,7 @@ PKT_CONF = {
 SECRET = 'secret'
 
 # Defaults for Server
-DEFAULT_SERVER_INTERFACE = 'ens3'
+DEFAULT_SERVER_INTERFACE = 'eth0'
 DEFAULT_DATA_DIR = '/data/' # Storage of exfiltrated data
 DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
@@ -86,3 +86,8 @@ def to_client_conf(conf):
         client_domain=conf['client_domain'],
         client_name=conf['client_name']
     )
+
+# Logging for application
+def log(class_name, function_name, message);
+    if LOG_DATA:
+        print('[%s]: (%s) - %s'.format(class_name, function_name, message))

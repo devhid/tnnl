@@ -3,6 +3,7 @@ import time
 
 from collections import deque
 from scapy.all import *
+from utils.consts import log
 
 class CommandQueue():
 
@@ -15,7 +16,7 @@ class CommandQueue():
         self.socket = conf.L2socket(iface = interface)
 
     def enqueue(self, command_pkt):
-        print('added')
+        log('CommandQueue', 'enqueue', 'Added to queue')
         self.queue.append(command_pkt)
 
     def dequeue(self):
@@ -30,7 +31,7 @@ class CommandQueue():
     def process(self):
         if self.queue:
             command_pkt = self.dequeue()
-            print('sending packet')
+            log('CommandQueue', 'process', 'Processing packet')
 
             # Randomize packet transfer interval
             low = int(self.config.delay_time) - int(self.config.delay_time_offset)
