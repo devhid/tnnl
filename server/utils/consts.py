@@ -24,7 +24,7 @@ PKT_CONF = {
 SECRET = 'secret'
 
 # Defaults for Server
-DEFAULT_SERVER_INTERFACE = 'ens0'
+DEFAULT_SERVER_INTERFACE = 'ens3'
 DEFAULT_DATA_DIR = '/data/' # Storage of exfiltrated data
 DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
