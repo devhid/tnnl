@@ -30,7 +30,7 @@ DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
 DEFAULT_TIMEOUT = '60' # Default timeout of sending out packets 
 DEFAULT_TIMEOUT_OFFSET = '20' # The +/- amount to vary up the timeoffsets
-DEFAULT_FILTER = 'udp and dst 192.168.67.149'
+DEFAULT_FILTER = 'udp'
 
 # Defaults for Client
 DEFAULT_CLIENT_PING_INTERVAL = '60' # Measured in minutes for checking commands on server
