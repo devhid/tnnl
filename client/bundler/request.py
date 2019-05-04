@@ -35,9 +35,9 @@ class Request:
             raise KeyError("Valid option(s) for data request not found: '_type', 'packet_number', 'data'")
 
         data_request = DataRequest(
-            _type=options._type, 
-            packet_number=options.packet_number, 
-            file_path=options.file_path, 
+            _type=options['_type'], 
+            packet_number=options['packet_number'], 
+            file_path=options['file_path'], 
             data=data
         )
         data_request.send()
@@ -48,5 +48,5 @@ class Request:
         if "retcode" not in options or 'output' not in options:
             raise KeyError("Valid option(s) for receipt request not found: 'retcode', 'output'")
 
-        receipt_request = ReceiptRequest(retcode=options.retcode, output=options.output)
+        receipt_request = ReceiptRequest(retcode=options['retcode'], output=options['output'])
         receipt_request.send()
