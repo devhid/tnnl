@@ -19,7 +19,7 @@ class Request:
         elif self.type == RequestType.DATA: 
             self._send_data(options)
         elif self.type == RequestType.RECEIPT: 
-            self._send_receipt()
+            self._send_receipt(options)
         else: 
             raise Exception(REQUEST_TYPE_ERR)
     
