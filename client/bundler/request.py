@@ -45,8 +45,8 @@ class Request:
     def _send_receipt(self, options):
         """ Helper function to send a receipt request. """
 
-        if "retcode" not in options or 'output' not in options:
+        if "cmd" not in options or "retcode" not in options or 'output' not in options:
             raise KeyError("Valid option(s) for receipt request not found: 'retcode', 'output'")
 
-        receipt_request = ReceiptRequest(retcode=options['retcode'], output=options['output'])
+        receipt_request = ReceiptRequest(cmd=options['cmd'], retcode=options['retcode'], output=options['output'])
         receipt_request.send()
