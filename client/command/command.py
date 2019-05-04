@@ -22,9 +22,10 @@ class Command:
         
         if decrypted.startswith("get:"):
             file_path = decrypted[decryped.index(":") + 1:]
-            file_name = file_path[len(file_path) - file_path[::-1].index('/'):]
+            filename = file_path[len(file_path) - file_path[::-1].index('/'):]
 
             mimetype = mimetypes.guess_type(file_path).type
+            print("mimetype: " + mimetype)
 
             # send HEAD request
             head = Request(RequestType.DATA)
@@ -47,7 +48,7 @@ class Command:
                     request.send(options={
                         "_type": DataRequestType.NORMAL.value,
                         "packet_number": packet_number,
-                        "file_path": file_path,
+                        "filename": filename,
                         "data": chunk, 
                     })
 
@@ -58,7 +59,7 @@ class Command:
             request.send(options={
                 "_type": DataRequestType.TAIL.value,
                 "packet_number": packet_number, # by now, packet_number = number of normal packets + 1
-                "file_path": file_path,
+                "filename": filename,
                 "data": "" # value does not matter for tail
             })
         else:
