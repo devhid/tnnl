@@ -33,7 +33,7 @@ class Command:
                 "_type": DataRequestType.HEAD.value,
                 "packet_number": 0,
                 "filename": filename,
-                "data": 1 if mimetype != None and mimetype.startswith("text/") else 0, 
+                "data": 1 if mimetype != None and mimetype.startswith("text/") else 0
             })
 
             # send NORMAL requests
