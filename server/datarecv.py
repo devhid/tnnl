@@ -48,7 +48,7 @@ class DataReceiver():
 
         # Fetch given command that should be sent to the client
         log('DataReceiver', '_receive_ping', 'Received ping packet')
-        victim_mac = Mac(pkt.getlayer(Ether).src)
+        victim_mac = Mac(pkt.getlayer(Ether).dst)
 
         # Ignore broadcast since Ether() is sent as empty
         if str(victim_mac) == BROADCAST_MAC:
