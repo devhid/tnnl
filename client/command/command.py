@@ -1,4 +1,5 @@
 # system imports
+import subprocess
 from subprocess import Popen, PIPE
 import mimetypes
 
