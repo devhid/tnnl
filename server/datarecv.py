@@ -138,6 +138,9 @@ class DataReceiver():
             f.write(dnsrr_layer.rdata)
 
     def _handle_data_pkts(self, pkt, dns_layer, dnsqr_layer, filename, key, victim_mac):
+        if dns_layer == None or dnsqr_layer == None:
+            return
+
         # Determine if it is a head, body, or tail packet
         if dns_layer.opcode == DataRequestType.HEAD:
             # Create entry, append data
