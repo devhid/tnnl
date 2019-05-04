@@ -11,6 +11,7 @@ from utils.request_type import RequestType
 from utils.data_req_type import DataRequestType
 from utils.mac import Mac
 from utils.consts import log, PacketData, BROADCAST_MAC, SECRET
+from encrypt import Encrypter
 from command.cmdparser import CommandParser
 
 class DataReceiver():
