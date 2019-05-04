@@ -11,7 +11,7 @@ class CommandParser:
             print("no DNS")
             return None
 
-        print(response['DNS'])
+        print(response['DNS'].show())
         an = response['DNS'].an
         if an == None:
             print("no an")
