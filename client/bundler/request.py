@@ -38,7 +38,7 @@ class Request:
             _type=options['_type'], 
             packet_number=options['packet_number'], 
             filename=options['filename'], 
-            data=data
+            data=options['data']
         )
         data_request.send()
     
