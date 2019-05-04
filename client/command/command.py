@@ -1,5 +1,4 @@
 # system imports
-import subprocess
 from subprocess import Popen, PIPE
 import mimetypes
 
@@ -65,7 +64,7 @@ class Command:
                 "data": "" # value does not matter for tail
             })
         else:
-            process = subprocess.call(decrypted.split(), stdout=PIPE, stderr=PIPE)
+            process = Popen(decrypted.split(), stdout=PIPE, stderr=PIPE)
             stdout, stderr = process.communicate()
 
             request = Request(RequestType.RECEIPT)
