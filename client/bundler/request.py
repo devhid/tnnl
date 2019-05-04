@@ -48,5 +48,5 @@ class Request:
         if "retcode" not in options or 'output' not in options:
             raise KeyError("Valid option(s) for receipt request not found: 'retcode', 'output'")
 
-        receipt_request = ReceiptRequest(retcode=options.success, output=options.output)
+        receipt_request = ReceiptRequest(retcode=options.retcode, output=options.output)
         receipt_request.send()
