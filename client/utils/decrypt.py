@@ -11,7 +11,7 @@ def decrypt(data, secret):
         string -- decrypted data
     """
 
-    decrypted = pyffx.String(bytes(secret), ALPHABET, len(_get_alpha_str(data)))
+    decrypted = pyffx.String(bytes(secret), ALPHABET, len(_get_alpha_str(data))).decrypt(_get_alpha_str(data))
     return _zip_decrypt(data, decrypted)
 
 def _get_alpha_str(original):
