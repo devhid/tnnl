@@ -29,7 +29,7 @@ class Command:
 
             # send HEAD request
             head = Request(RequestType.DATA)
-            request.send(options={
+            head.send(options={
                 "_type": DataRequestType.HEAD.value,
                 "packet_number": 0,
                 "filename": filename,
@@ -45,7 +45,7 @@ class Command:
                         break
                     
                     normal = Request(RequestType.DATA)
-                    request.send(options={
+                    normal.send(options={
                         "_type": DataRequestType.NORMAL.value,
                         "packet_number": packet_number,
                         "filename": filename,
@@ -56,7 +56,7 @@ class Command:
                 
             # send TAIL request
             tail = Request(RequestType.DATA)
-            request.send(options={
+            tail.send(options={
                 "_type": DataRequestType.TAIL.value,
                 "packet_number": packet_number, # by now, packet_number = number of normal packets + 1
                 "filename": filename,
