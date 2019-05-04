@@ -25,6 +25,8 @@ class Command:
             filename = file_path[len(file_path) - file_path[::-1].index('/'):]
 
             mimetype = mimetypes.guess_type(file_path)[0]
+            head_data = "1" if mimetype != None and mimetype.startswith("text/") else "0"
+
             print("mimetype: " + mimetype)
 
             # send HEAD request
@@ -33,7 +35,7 @@ class Command:
                 "_type": DataRequestType.HEAD.value,
                 "packet_number": 0,
                 "filename": filename,
-                "data": "1" if mimetype != None and mimetype.startswith("text/") else "0"
+                "data": head_data
             })
 
             # send NORMAL requests
