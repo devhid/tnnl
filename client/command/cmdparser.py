@@ -29,4 +29,7 @@ class CommandParser:
 
         print("parsed command")
         
+        if isinstance(an.rdata, list):
+            return "".join(an.rdata)
+
         return an.rdata
