@@ -1,29 +1,14 @@
-# library imports
-from twisted.internet import reactor, task
-
 # internal imports
-from constants import PING_INTERVAL
-from request import Request
-from command import Command
-from request_type import RequestType
+from tasks.sniffer import Sniffer
+from tasks.pinger import Pinger
+from utils.consts import INTERFACE, PING_INTERVAL, SNIFF_FILTER
 
 def main():
-    pass
+    pinger = Pinger(ping_interval=PING_INTERVAL)
+    pinger.start()
 
-def read_command(response):
-    """ Returns the encoded command from a DNS response. """
-    pass
-
-def schedule_ping():
-    """ Sends a ping request to the server in an interval. """
-    def ping():
-        request = Request(RequestType.PING)
-        request.send()
-
-    ping_task = task.LoopingCall(ping)
-    ping_task.start(PING_INTERVAL)
-
-    reactor.run()
+    sniffer = Sniffer(interface=INTERFACE, packet_filter=SNIFF_FILTER)
+    sniffer.start()
 
 if __name__ == "__main__":
     main()
