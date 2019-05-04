@@ -25,7 +25,6 @@ class CommandQueue:
         """ Dequeues the next command and executes it. """
         if not self.queue.empty():
             cmd = self.dequeue()
-            print("got command: " + cmd)
 
             if cmd == None:
                 return
