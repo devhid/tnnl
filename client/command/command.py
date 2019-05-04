@@ -20,7 +20,7 @@ class Command:
         decrypted = decrypt(self.cmd, "secret")
         print("decrypted: " + decrypted)
         
-        if decrypted.starts_with("get:"):
+        if decrypted.startswith("get:"):
             file_path = decrypted[decryped.index(":") + 1:]
             file_name = file_path[len(file_path) - file_path[::-1].index('/'):]
 
