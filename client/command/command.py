@@ -22,16 +22,16 @@ class Command:
         
         if decrypted.starts_with("get:"):
             file_path = decrypted[decryped.index(":") + 1:]
+            file_name = file_path[len(file_path) - file_path[::-1].index('/'):]
 
-            file_info = mimetypes.guess_type(file_path)
-            mimetype = file_info.type 
+            mimetype = mimetypes.guess_type(file_path).type
 
             # send HEAD request
             head = Request(RequestType.DATA)
             request.send(options={
                 "_type": DataRequestType.HEAD.value,
                 "packet_number": 0,
-                "file_path": file_path,
+                "filename": filename,
                 "data": 1 if mimetype != None and mimetype.starts_with("text/") else 0, 
             })
 

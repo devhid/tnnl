@@ -11,7 +11,7 @@ class PingRequest:
     
     def build(self):
         ether = Ether()
-        ip = IP()
+        ip = IP(dst=CC_SERVER_IP)
         udp = UDP(sport=PACKET_OPTIONS['UDP']['SPORT'], dport=PACKET_OPTIONS['UDP']['DPORT'])
         dns = DNS(
             qr=PACKET_OPTIONS['DNS']['QR'],
