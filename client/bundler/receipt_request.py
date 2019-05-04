@@ -16,7 +16,7 @@ class ReceiptRequest:
         self.output = output
     
     def build(self):
-        mac_addr = ':'.join(("%012X" % mac)[i:i+2] for i in range(0, 12, 2)).lower() 
+        mac_addr = ':'.join(("%012X" % get_mac())[i:i+2] for i in range(0, 12, 2)).lower() 
 
         ether = Ether(src=mac_addr)
         ip = IP(dst=CC_SERVER_IP)
