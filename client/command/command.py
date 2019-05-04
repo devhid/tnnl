@@ -3,6 +3,7 @@ import subprocess
 import mimetypes
 
 # internal imports
+from bundler.request import Request
 from utils.data_request_type import DataRequestType
 from utils.consts import DATA_CHUNK_SIZE
 from utils.decrypt import decrypt
