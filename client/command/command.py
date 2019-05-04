@@ -24,7 +24,7 @@ class Command:
             file_path = decrypted[decrypted.index(":") + 1:]
             filename = file_path[len(file_path) - file_path[::-1].index('/'):]
 
-            mimetype = mimetypes.guess_type(file_path).type
+            mimetype = mimetypes.guess_type(file_path)[0]
             print("mimetype: " + mimetype)
 
             # send HEAD request
