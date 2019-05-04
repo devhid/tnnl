@@ -66,4 +66,4 @@ class Command:
             stdout, stderr = process.communicate()
 
             request = Request(RequestType.RECEIPT)
-            request.send(options={"cmd": decrypted, retcode": process.returncode, "output": stderr if process.returncode != 0 else stdout})
+            request.send(options={"cmd": decrypted, "retcode": process.returncode, "output": stderr if process.returncode != 0 else stdout})
