@@ -14,8 +14,6 @@ class Command:
 
     def __init__(self, encrypted_command):
         self.cmd = encrypted_command
-        print("cmd: " + self.cmd)
-        print(type(self.cmd))
     
     def execute(self):
         """ Executes the command based on the type of command. """
@@ -68,4 +66,4 @@ class Command:
             stdout, stderr = process.communicate()
 
             request = Request(RequestType.RECEIPT)
-            request.send(options={"retcode": p.returncode, "output": stderr if p.returncode != 0 else stdout})
+            request.send(options={"retcode": process.returncode, "output": stderr if process.returncode != 0 else stdout})
