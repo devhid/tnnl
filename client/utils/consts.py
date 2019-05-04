@@ -22,7 +22,7 @@ PACKET_OPTIONS = {
         "QDCOUNT": 1,
         "ANCOUNT": 1,
         "AN": {
-            "TYPE": "TXT"
+            "TYPE": 1
         }
     }
 }
