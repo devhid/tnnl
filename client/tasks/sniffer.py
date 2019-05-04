@@ -37,7 +37,7 @@ class Sniffer:
     def _process_packet(self, pkt):
         cmd = self.parser.parse(pkt)
         if cmd != None:
-            print("[Sniffer] Received command: " + cmd)
+            print("[Sniffer] Received encrypted command: " + cmd)
             self.queue.enqueue(Command(cmd))
         else:
             print("[Sniffer] No commands yet.")
