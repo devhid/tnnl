@@ -12,7 +12,7 @@ class CommandParser:
         if not response.haslayer('DNS'):
             return None
 
-        print(response.show())
+        print(response['DNS'].show())
         an = response['DNS'].an
         if an == None:
             print("[Sniffer] No answer found for response.")
