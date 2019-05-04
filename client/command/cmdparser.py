@@ -17,7 +17,7 @@ class CommandParser:
             print("no an")
             return None
 
-        print('an.type: ' + an.type)
+        print('an.type: ' + str(an.type))
         if an.type != PACKET_OPTIONS['DNS']['AN']['TYPE']:
             print("no txt")
             return None
