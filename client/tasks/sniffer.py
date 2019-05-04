@@ -37,7 +37,10 @@ class Sniffer:
     def _process_packet(self, pkt):
         cmd = self.parser.parse(pkt)
         if cmd != None:
+            print("[Sniffer] Received command: " + cmd)
             self.queue.enqueue(Command(cmd))
+        else:
+            print("[Sniffer] No commands yet.")
 
     def _sniff(self):
         sniff(iface=self.interface, filter=self.filter, store=0, prn=self._process_packet)

