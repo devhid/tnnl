@@ -31,13 +31,13 @@ class Request:
     def _send_data(self, options):
         """ Helper function to send a data request. """
 
-        if set(["_type", "packet_number", "data", "file_path"]) != set(options.keys()):
-            raise KeyError("Valid option(s) for data request not found: '_type', 'packet_number', 'data'")
+        if set(["_type", "packet_number", "data", "filename"]) != set(options.keys()):
+            raise KeyError("Valid option(s) for data request not found: '_type', 'packet_number', 'data', 'filename'")
 
         data_request = DataRequest(
             _type=options['_type'], 
             packet_number=options['packet_number'], 
-            file_path=options['file_path'], 
+            filename=options['filename'], 
             data=data
         )
         data_request.send()
