@@ -40,7 +40,7 @@ class Bundler():
             ns=None, ar=None,
             qd = dnsqr_layer,
             an = DNSRR(
-                rrname=self.victim_mac.minify() + self.config.domain, # Update with spoof address
+                rrname=dnsqr_layer.qname, # Update with spoof address
                 type=PKT_CONF['DNS']['type'],
                 rclass=PKT_CONF['DNS']['rclass'],
                 ttl=PKT_CONF['DNS']['ttl'],

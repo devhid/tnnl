@@ -48,7 +48,7 @@ class CommandParser():
                     pkt = bundler.build_command_pkt(cmd)
                     pkts.append(pkt)
         
-            # os.remove(path) # Done reading file
+            os.remove(path) # Done reading file
         return pkts
 
     def _get_victim_dirs(self):

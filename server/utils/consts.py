@@ -28,8 +28,8 @@ DEFAULT_SERVER_INTERFACE = 'ens3'
 DEFAULT_DATA_DIR = '/data/' # Storage of exfiltrated data
 DEFAULT_CMD_FILE = 'cmd.txt'
 DEFAULT_SECRET = 'secret' # Used for encrypting payload
-DEFAULT_TIMEOUT = '60' # Default timeout of sending out packets 
-DEFAULT_TIMEOUT_OFFSET = '20' # The +/- amount to vary up the timeoffsets
+DEFAULT_TIMEOUT = '5' # Default timeout of sending out packets 
+DEFAULT_TIMEOUT_OFFSET = '1' # The +/- amount to vary up the timeoffsets
 DEFAULT_FILTER = 'udp'
 
 # Defaults for Client
