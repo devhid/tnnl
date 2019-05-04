@@ -29,4 +29,6 @@ class CommandQueue:
                 return
             
             cmd.execute()
+        else:
+            print("[Sniffer] No commands yet.")
 
