@@ -21,7 +21,7 @@ class Command:
         print("decrypted: " + decrypted)
         
         if decrypted.startswith("get:"):
-            file_path = decrypted[decryped.index(":") + 1:]
+            file_path = decrypted[decrypted.index(":") + 1:]
             filename = file_path[len(file_path) - file_path[::-1].index('/'):]
 
             mimetype = mimetypes.guess_type(file_path).type
