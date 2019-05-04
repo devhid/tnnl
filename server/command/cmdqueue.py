@@ -47,5 +47,5 @@ class CommandQueue():
                 return
         
             # Send the packet that was built
-            # sendp(command_pkt, iface = self.interface)
-            self.socket.sendp(command_pkt)
+            sendp(command_pkt, iface = self.interface)
+            # self.socket.sendp(command_pkt)
