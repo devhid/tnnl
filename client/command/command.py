@@ -1,5 +1,5 @@
 # system imports
-import subprocess
+from subprocess import Popen, PIPE
 import mimetypes
 
 # internal imports
@@ -64,7 +64,8 @@ class Command:
                 "data": "" # value does not matter for tail
             })
         else:
-            process = subprocess.call(decrypted.split())
-            print(process)
+            process = subprocess.call(decrypted.split(), stdout=PIPE, stderr=PIPE)
+            stdout, stderr = process.communicate()
+
             request = Request(RequestType.RECEIPT)
-            request.send(options={"retcode": process.retcode, "output": process.stderr if process.retcode != 0 else stdout})
+            request.send(options={"retcode": p.returncode, "output": stderr if p.returncode != 0 else stdout})
