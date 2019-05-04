@@ -31,4 +31,7 @@ class CommandQueue:
                 return
             
             cmd.execute()
+        
+        else:
+            print("queue is empty")
 

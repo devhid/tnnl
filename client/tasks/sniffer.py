@@ -36,6 +36,7 @@ class Sniffer:
     
     def _process_packet(self, pkt):
         cmd = self.parser.parse(pkt)
+        print("cmd == None: " + cmd == None)
         if cmd != None:
             self.queue.enqueue(Command(pkt))
 
