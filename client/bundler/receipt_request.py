@@ -23,5 +23,6 @@ class ReceiptRequest:
         )
     
     def send(self):
+        print(self.build().show())
         sendp(x=self.build(), iface=INTERFACE, verbose=0)
         
