@@ -13,7 +13,7 @@ class Command:
     def __init__(self, encrypted_command):
         self.cmd = encrypted_command
         print("cmd: " + self.cmd)
-        print('type: ' + type(self.cmd))
+        print(type(self.cmd))
     
     def execute(self):
         """ Executes the command based on the type of command. """
