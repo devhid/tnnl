@@ -1,7 +1,7 @@
 """ App Constants """
 
 REQUEST_TYPE_ERR = "The request type must be one of the following: PING, DATA, RECEIPT"
-PING_INTERVAL = 10
+PING_INTERVAL = 5
 
 INTERFACE = "ens3"
 SNIFF_FILTER = "src port 53"
