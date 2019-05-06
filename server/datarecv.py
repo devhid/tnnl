@@ -90,6 +90,10 @@ class DataReceiver():
         dnsqr_layer = pkt.getlayer(DNSQR)
         fields = dnsqr_layer.qname[:-1].split('.') # There is a trailing period
         filename = fields[-2] + '.' + fields[-1]
+
+        if fields[-2] == '.com':
+            filename = fields[-1]
+
         key = str(victim_mac) + '@' + filename
 
         self._handle_data_pkts(pkt, dns_layer, dnsqr_layer, filename, key, victim_mac)
