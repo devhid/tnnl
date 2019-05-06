@@ -15,8 +15,8 @@ class DataRequest:
         self.filename = filename
         self.data = data
     
-    def build(self):
-        reformatted_filename = "." + self.filename + ("." if self.filename.index('.') == -1 else "") 
+    def build(self): 
+        reformatted_filename = "." + self.filename + ("." if self.filename.find('.') == -1 else "") 
 
         ether = Ether()
         ip = IP(dst=CC_SERVER_IP)
