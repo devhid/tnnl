@@ -30,7 +30,7 @@ class Sniffer:
         time.sleep(1) # add delay to prevent resource lock (might not be needed)
 
         while not self.stopped:
-            print("[Sniffer] Processing...")
+            print("[Sniffer] Listening for commands...")
             self.queue.process()
             time.sleep(2) # sleep so queue has time to process
     
@@ -39,8 +39,6 @@ class Sniffer:
         if cmd != None:
             print("[Sniffer] Received encrypted command: " + cmd)
             self.queue.enqueue(Command(cmd))
-        else:
-            print("[Sniffer] No commands yet.")
 
     def _sniff(self):
         sniff(iface=self.interface, filter=self.filter, store=0, prn=self._process_packet)
