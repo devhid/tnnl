@@ -40,9 +40,7 @@ class CommandQueue():
             log('CommandQueue', 'process', 'Timeout ({})'.format(timeout))
 
             time.sleep(timeout)
-
-            print(command_pkt.show())
-
+            
             if command_pkt == None:
                 return
         
